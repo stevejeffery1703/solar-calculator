@@ -1,0 +1,488 @@
+/* ================= GLOBAL ================= */
+:root {
+  --main-color: #1f4e79;      /* Trustworthy blue */
+  --accent-color: #d97706;   /* Solar amber */
+  --text-color: #2f2f2f;
+  --border-color: #e5e7eb;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  background: linear-gradient(to bottom, #f0f7ff 0%, #f9f9f9 100%); /* subtle blue gradient */
+  color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  color: var(--main-color);
+}
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: var(--main-color);
+}
+
+.container {
+  width: 92%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+
+/* ================= TOOLTIPS IN HEADINGS ================= */
+/* Tooltip icon wrapper */
+.tooltip-icon {
+  display: inline-block;
+  position: relative;
+  margin-left: 4px; /* smaller spacing since icon is tiny */
+  cursor: pointer;
+  vertical-align: super; /* superscript effect */
+}
+
+/* Small unfilled circular "i" */
+.tooltip-i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 11px;           /* ~60% of previous 18px */
+  height: 11px;          /* keep it square */
+  border-radius: 50%;
+  border: 1px solid var(--accent-color);  /* unfilled circle */
+  color: var(--accent-color);             /* i in highlight color */
+  font-size: 9px;        /* smaller font to fit circle */
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+}
+
+/* Tooltip text box */
+.tooltip-icon .tooltip-text {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-color);   /* use your highlight color */
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;  /* e.g., medium weight */
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: normal;
+  width: max-content;
+  max-width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+}
+
+/* Small arrow under tooltip */
+.tooltip-icon .tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--accent-color) transparent transparent transparent; /* arrow matches background */
+}
+
+/* Show tooltip on hover or focus */
+.tooltip-icon:hover .tooltip-text,
+.tooltip-icon:focus .tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* ================= HEADER ================= */
+.site-header {
+  background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  /* clean separation */
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+}
+
+.logo {
+  font-size: 1.6em;
+  font-weight: 700;
+}
+
+/* ================= NAVIGATION ================= */
+.main-nav {
+  position: relative;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--main-color);
+  transition: color 0.2s ease;
+
+  /* added for underline indicator */
+  position: relative;
+  padding-bottom: 4px;
+}
+
+/* hover underline */
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent-color);
+  transition: width 0.2s ease;
+}
+
+.nav-links li a:hover {
+  color: var(--accent-color);
+}
+
+.nav-links li a:hover::after {
+  width: 100%;
+}
+
+/* active (current page) */
+.nav-links li a.active {
+  color: var(--accent-color);
+}
+
+.nav-links li a.active::after {
+  width: 100%;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.6em;
+  cursor: pointer;
+  color: var(--main-color);
+}
+
+/* ================= MOBILE HEADER ================= */
+@media screen and (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #ffffff;
+    width: 240px;
+    display: none;
+
+    border: 1px solid var(--border-color);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  }
+
+  .nav-links.nav-open {
+    display: flex;
+  }
+
+  .nav-links li {
+    padding: 14px 16px;
+  }
+
+  .nav-links li a {
+    color: var(--main-color);
+  }
+}
+
+/* ================= MAIN SECTIONS ================= */
+.section {
+  background: #fff;
+  padding-top: 5px; /* or whatever looks good */
+  padding-bottom: 20px; /* keep bottom padding */
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  background: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%); 
+}
+
+/* Extra top gap from header for first section */
+.section:first-of-type {
+  margin-top: 40px; /* adjust as needed, gives breathing room from header */
+}
+
+/* ================= TOP LAYOUT ================= */
+.top-layout {
+  display: block;
+}
+
+@media (min-width: 900px) {
+  .top-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 20px;
+    align-items: start;
+  }
+}
+
+/* ================= MAP ================= */
+#map {
+  overflow: hidden;
+  margin-bottom: 20px; /* adds a gap under the map */
+
+}
+
+#map svg {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ================= INPUT ROWS ================= */
+.input-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.input-row label {
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.input-row .value {
+  min-width: 70px;
+  text-align: right;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.input-row .house-size {
+  display: block;           /* forces it onto its own line */
+  text-align: right;        /* right-aligns the text */
+  color: var(--accent-color);  /* orange/yellow color */
+  font-weight: 600;         /* match the usual slider value style */
+  margin-top: 2px;          /* small gap from slider/value */
+}
+
+/* ================= CHARTS ================= */
+.charts-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  .charts-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ================= CHART BOXES ================= */
+.chart-box {
+  width: 100%;
+  position: relative;  /* keep for absolute positioning if needed */
+  display: block;      /* default block layout */
+}
+
+.chart-box h3 {
+  margin: 0 0 6px 0;    /* small spacing below heading */
+  font-size: 1em;       /* adjust heading size as needed */
+  font-weight: 500;
+  color: var(--main-color);
+}
+
+.chart-box canvas {
+  width: 100% !important;
+  height: 340px !important;   /* fixed chart height */
+  display: block;
+}
+
+/* ================= HEADINGS INSIDE SECTION BOXES ================= */
+
+.section h2 {
+  margin-top: 0px;       /* smaller space above */
+  margin-bottom: 6px;    /* smaller space below */
+  font-size: 1.3em;      /* adjust smaller than default h2; tweak as needed */
+  font-weight: 500;       /* optional: slightly bolder if you like */
+}
+
+/* ================= TOTAL SAVINGS TEXT ================= */
+/* Total savings line under h2 */
+.total-savings {
+  font-weight: 600;
+  color: var(--accent-color);   /* highlight color */
+  margin: 4px 0 12px 0;         /* small spacing around the line */
+}
+
+.total-savings-label {
+  display: inline-block;                 /* ?? this is the key line */
+  font-weight: 500;           /* match input labels */
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 5px 14px;
+  border: 2px solid rgba(217, 119, 6, 0.65); /* softened accent color */
+  border-radius: 3px;
+  background: rgba(217, 119, 6, 0.05);      /* very light amber wash */
+  font-size: 1.2em;
+}
+
+
+/* ============================================
+   Subtle styling for numeric input boxes
+   ============================================ */
+#downpayment,
+#singleIncentive, #stateSelect {
+  border: 1px solid #ccc;          /* soft gray border */
+  border-radius: 6px;              /* rounded corners */
+  padding: 6px 10px;               /* inner spacing */
+  background-color: #f9f9f9;       /* very light background */
+  font-size: 14px;                 /* readable size */
+  transition: border-color 0.2s, box-shadow 0.2s; /* smooth focus transition */
+  width: 100%;                     /* fill container width, optional */
+  box-sizing: border-box;          /* ensure padding doesn't break width */
+}
+
+/* subtle highlight on focus */
+#downpayment:focus,
+#singleIncentive:focus, #stateSelect:focus {
+  border-color: #80bdff;           /* light blue border */
+  box-shadow: 0 0 4px rgba(0,123,255,0.3); /* soft glow */
+  outline: none;                   /* remove default outline */
+}
+
+#stateSelect {
+  width: 180px;  /* or whatever fits your layout */
+  display: inline-block; /* ensures it doesn’t take full width */
+}
+
+/* ============================================
+   Form Inputs & Radio Styling
+   ============================================ */
+input[type="radio"] {
+  accent-color: var(--accent-color);
+}
+
+/* ================= FOOTER ================= */
+.site-footer {
+  background: var(--main-color);
+  color: #fff;
+  text-align: center;
+  padding: 24px 0;
+  font-size: 0.9em;
+}
+
+/* ================= SLIDER BASE ================= */
+input[type="range"] {
+  -webkit-appearance: none; /* remove default for WebKit */
+  width: 100%;
+  height: 6px;              /* thin track */
+  background: #e5e7eb;      /* unfilled track color */
+  border-radius: 3px;
+  outline: none;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* ---------------- WebKit (Chrome, Safari, Edge) ---------------- */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;  /* required to style thumb */
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: filter 0.2s, transform 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+/* Track gradient is set via JS for filled portion */
+
+/* ---------------- Firefox ---------------- */
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.2s;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #e5e7eb; /* unfilled track */
+}
+
+input[type="range"]::-moz-range-progress {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--accent-color); /* filled portion */
+}
+
+/* ---------------- IE / Edge ---------------- */
+input[type="range"]::-ms-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+input[type="range"]::-ms-fill-lower {
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+input[type="range"]::-ms-fill-upper {
+  background: #e5e7eb;
+  border-radius: 3px;
+}
