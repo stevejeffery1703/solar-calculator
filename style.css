@@ -16,6 +16,50 @@ body, html {
   color: var(--text-color);
 }
 
+/* ================= GLOBAL LINKS ================= */
+a {
+  color: var(--main-color);           /* main blue (#1f4e79) */
+  font-weight: 600;                   /* bold like menu */
+  text-decoration: none;              /* remove default underline */
+  position: relative;                 /* needed for pseudo-element underline */
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover and focus */
+a:hover,
+a:focus {
+  color: var(--accent-color);           /* keep text blue */
+  outline: none;                      /* remove default focus outline */
+}
+
+/* Sliding underline effect using pseudo-element */
+a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;                       /* distance from text */
+  width: 0;
+  height: 2px;
+  background-color: var(--accent-color); /* amber underline */
+  transition: width 0.3s ease;
+}
+
+a:hover::after,
+a:focus::after {
+  width: 100%;
+}
+
+/*-- html --*/
+
+html {
+  scroll-behavior: smooth;
+}
+
+#mapSection {
+  scroll-margin-top: 120px; /* height of your sticky header, to adjust for anchor links  */
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
