@@ -200,7 +200,9 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .nav-links li {
-    padding: 14px 16px;
+    padding: 5px 10px;
+    line-height: 1.6;          /* reduce inherited line-height */
+
   }
 
   .nav-links li a {
