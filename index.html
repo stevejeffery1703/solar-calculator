@@ -12,19 +12,32 @@
 <body>
   <!-- ================= HEADER ================= -->
   <header class="site-header">
-    <div class="container header-container">
-      <div class="logo">Solar Calculator</div>
-      <nav class="main-nav">
-        <button class="nav-toggle" aria-label="Toggle menu">☰</button>
-        <ul class="nav-links">
-          <li><a href="#" class="active">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Planning Your Solar Installation</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </nav>
+  <div class="container header-container">
+    <div class="logo">
+      <a href="/" aria-label="Solar Calculator Home">
+        <img 
+          src="logo-color.png" 
+          alt="Solar Calculator Logo" 
+          class="logo-header-img"
+        />
+      </a>
     </div>
-  </header>
+
+    <nav class="main-nav">
+      <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Planning Your Solar Installation</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+  
+  
 
   <!-- ================= MAIN CONTAINER ================= -->
   <div class="container main-content">
@@ -328,7 +341,7 @@
       <span class="tooltip-icon" tabindex="0">
     <span class="tooltip-i">i</span>
     <span class="tooltip-text">
-      Adjust to your current electricity cost. US average is approximately $0.16 / kWh.
+      Adjust to your current electricity cost. Current US average is approximately $0.16 / kWh.
     </span>
   </span>    
     </label>
@@ -403,12 +416,27 @@
   <!-- closes .container.main-content -->
 
   <!-- ================= FOOTER ================= -->
+  
   <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 Solar Calculator. All rights reserved.</p>
-      <p>Some generic footer text. Links, contact info, or disclaimers can go here.</p>
+  <div class="container footer-container">
+    <div class="footer-logo">
+    <a href="/" aria-label="Solar Calculator Home">
+      <img 
+        src="logo-white.png" 
+        alt="Solar Calculator Logo" 
+        class="logo-footer-img"
+      />
+    </a>
     </div>
-  </footer>
+
+    <p>&copy; 2026 Solar Calculator. All rights reserved.</p>
+    <p>Some generic footer text. Links, contact info, or disclaimers can go here.</p>
+  </div>
+</footer>
+
+  
+  
+  
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>

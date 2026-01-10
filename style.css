@@ -486,3 +486,28 @@ input[type="range"]::-ms-fill-upper {
   background: #e5e7eb;
   border-radius: 3px;
 }
+
+
+/* ================ Logo image ============== */
+
+.logo a,
+.footer-logo a {
+  display: inline-block;
+}
+
+.logo-header-img {
+  height: 60px;   /* your chosen size */
+  width: auto;
+  display: block;
+}
+
+.footer-logo {
+  margin-bottom: 1rem;
+}
+
+.logo-footer-img {
+  height: 40px;
+  width: auto;
+  display: block;
+  margin: 0 auto;
+}
