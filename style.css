@@ -511,3 +511,11 @@ input[type="range"]::-ms-fill-upper {
   display: block;
   margin: 0 auto;
 }
+
+/* Mobile: smaller for header logo only */
+@media (max-width: 640px) {
+  .logo-header-img {
+    height: 40px; /* set whatever pixel height you want */
+    width: auto;  /* maintain aspect ratio */
+  }
+}
