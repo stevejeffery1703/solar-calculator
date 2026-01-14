@@ -50,8 +50,8 @@ a:focus::after {
   width: 100%;
 }
 
-/* Remove hover effect from logo */
-.logo a::after {
+/* Remove hover effect from .logo and .footer-logo */
+.logo .footer-logo a::after {
   display: none;
 }
 
