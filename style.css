@@ -50,6 +50,11 @@ a:focus::after {
   width: 100%;
 }
 
+/* Remove hover effect from logo */
+.logo a::after {
+  display: none;
+}
+
 /*-- html --*/
 
 html {
