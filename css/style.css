@@ -285,7 +285,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .card-for-columns {
   background: none; /* no padding, image bleeds to edges */
-  margin-bottom: 20px;
+  margin-top: 40px;
+  margin-bottom: 10px;
   border-radius: 10px;
   overflow: hidden; /* ensures image respects border radius */
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
@@ -308,12 +309,13 @@ h1, h2, h3, h4, h5, h6 {
 /* Image column */
 .card-image {
   flex: 1 1 50%; /* half width on desktop */
+  display: flex;
 }
 
 .card-image img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover; /* ensures it fills its container nicely */
 }
 
@@ -335,7 +337,7 @@ h1, h2, h3, h4, h5, h6 {
   order: 1;
 }
 
-/* Mobile: stack vertically */
+/* ================= MOBILE STACKING ================= */
 @media (max-width: 768px) {
   .card-row {
     flex-direction: column;
@@ -344,25 +346,33 @@ h1, h2, h3, h4, h5, h6 {
   /* Text always above image */
   .card-text {
     flex: 1 1 100%;
-    order: 1; /* text first */
     padding: 20px;
     background: #fff;
   }
 
   .card-image {
     flex: 1 1 100%;
-    order: 2; /* image second */
     padding: 0; /* remove any padding */
     background: none; /* full bleed */
   }
 
   .card-image img {
-    width: 100%;
-    height: auto;
+    width: 100%;            /* fill width */
+    height: auto;           /* keep aspect ratio */
+    max-height: 30vh;       /* cap at 30% of viewport height */
     display: block;
-    border-radius: 0 0 10px 10px; /* bottom corners rounded */
+    border-radius: 0 0 10px 10px;
+    object-fit: cover;      /* crops if image exceeds max-height */
+    object-position: top;   /* ensures top of image is shown if cropped */
+  }
+
+  /* Reset desktop-specific ordering */
+  .card-for-columns .card-row .card-text,
+  .card-for-columns .card-row .card-image {
+    order: unset;
   }
 }
+
 
 /* ================= TOP LAYOUT ================= */
 .top-layout {
@@ -690,4 +700,48 @@ input[type="range"]::-ms-fill-upper {
   }
 }
 
+/* ================ BUTTON ============== */
+
+.main-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* slightly bigger gap for larger chevron */
+  padding: 6px 15px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1em;
+  color: var(--main-color);
+  border: 1px solid var(--main-color);
+  border-radius: 6px;
+  background: transparent;
+  text-decoration: none; /* remove underline from global link styles */
+  cursor: pointer;
+  transition: 
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.main-button .chevron {
+  display: inline-block;
+  font-size: 1.6em; /* increase chevron size */
+  transition: transform 0.25s ease, color 0.25s ease;
+  line-height: 1; /* prevents vertical misalignment */
+}
+
+/* Hover / Focus state */
+.main-button:hover,
+.main-button:focus {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  background-color: transparent; /* removed opacity highlight */
+  outline: none;
+  text-decoration: none !important; /* ensure no underline on hover */
+}
+
+.main-button:hover .chevron,
+.main-button:focus .chevron {
+  color: var(--accent-color);
+  transform: translateX(3px); /* subtle right movement */
+}
 
