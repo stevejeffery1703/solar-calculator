@@ -89,6 +89,8 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
 }
 
+
+
 /* ================= TOOLTIPS IN HEADINGS ================= */
 .tooltip-icon {
   display: inline-block;
@@ -277,6 +279,89 @@ h1, h2, h3, h4, h5, h6 {
 
 .section:first-of-type {
   margin-top: 40px;
+}
+
+/* ================= 2-COLUMN CARD SECTIONS ================= */
+
+.card-for-columns {
+  background: none; /* no padding, image bleeds to edges */
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden; /* ensures image respects border radius */
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+/* Row inside card: text + image */
+.card-row {
+  display: flex;
+  flex-wrap: wrap; /* allows stacking on mobile */
+}
+
+/* Text column */
+.card-text {
+  flex: 1 1 50%; /* half width on desktop */
+  padding: 20px; /* only the text column has padding */
+  box-sizing: border-box;
+  background: #fff; /* optional: white background behind text */
+}
+
+/* Image column */
+.card-image {
+  flex: 1 1 50%; /* half width on desktop */
+}
+
+.card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* ensures it fills its container nicely */
+}
+
+/* Reverse order if image-left */
+.card-row.image-left .card-image {
+  order: 0;
+}
+
+.card-row.image-left .card-text {
+  order: 1;
+}
+
+/* Default text-left */
+.card-row.text-left .card-text {
+  order: 0;
+}
+
+.card-row.text-left .card-image {
+  order: 1;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 768px) {
+  .card-row {
+    flex-direction: column;
+  }
+
+  /* Text always above image */
+  .card-text {
+    flex: 1 1 100%;
+    order: 1; /* text first */
+    padding: 20px;
+    background: #fff;
+  }
+
+  .card-image {
+    flex: 1 1 100%;
+    order: 2; /* image second */
+    padding: 0; /* remove any padding */
+    background: none; /* full bleed */
+  }
+
+  .card-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0 0 10px 10px; /* bottom corners rounded */
+  }
 }
 
 /* ================= TOP LAYOUT ================= */
@@ -604,3 +689,5 @@ input[type="range"]::-ms-fill-upper {
     width: auto;
   }
 }
+
+

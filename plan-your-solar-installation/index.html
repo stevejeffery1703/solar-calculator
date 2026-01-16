@@ -2,63 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Solar Calculator</title>
+  <title>Plan Your Solar Installation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
   <!-- ================= HEADER ================= -->
   <header class="site-header">
-  <div class="container header-container">
-    <div class="logo">
-      <a href="/" aria-label="Solar Calculator Home">
-        <img 
-          src="/assets/logo-color.png" 
-          alt="Solar Calculator Logo" 
-          class="logo-header-img"
-        />
-      </a>
+    <div class="container header-container">
+      <div class="logo">
+        <a href="/" aria-label="Solar Calculator Home">
+          <img src="/assets/logo-color.png" alt="Solar Calculator Logo" class="logo-header-img">
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/plan-your-solar-installation" class="active">Plan Your Solar Installation</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <nav class="main-nav">
-      <button class="nav-toggle" aria-label="Toggle menu">☰</button>
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/plan-your-solar-installation" class="active">Plan Your Solar Installation</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
+  <!-- ================= CARD SECTIONS ================= -->
   
+<div class="container">
+
+  <!-- Card 1 -->
+  <section class="card-for-columns">
+    <div class="card-row text-left">
+      <div class="card-text">
+        <h2>Step 1: Assess Your Roof</h2>
+        <p>Check your roof’s angle, orientation, and size to maximize sunlight exposure.</p>
+      </div>
+      <div class="card-image">
+        <img src="/assets/solar.jpg" alt="Roof assessment">
+      </div>
+    </div>
+  </section>
+
+  <!-- Card 2 -->
+  <section class="card-for-columns">
+    <div class="card-row image-left">
+      <div class="card-text">
+        <h2>Step 2: Choose Your Panels</h2>
+        <p>Select panels that fit your energy needs, budget, and aesthetic preferences.</p>
+      </div>
+      <div class="card-image">
+        <img src="/assets/solar.jpg" alt="Solar panels">
+      </div>
+    </div>
+  </section>
+
+</div>
+
 
   <!-- ================= FOOTER ================= -->
-  
   <footer class="site-footer">
-  <div class="container footer-container">
-    <div class="footer-logo">
-    <a href="/" aria-label="Solar Calculator Home">
-      <img 
-        src="/assets/logo-white.png" 
-        alt="Solar Calculator Logo" 
-        class="logo-footer-img"
-      />
-    </a>
+    <div class="container footer-container">
+      <div class="footer-logo">
+        <a href="/" aria-label="Solar Calculator Home">
+          <img src="/assets/logo-white.png" alt="Solar Calculator Logo" class="logo-footer-img">
+        </a>
+      </div>
+      <p>&copy; 2026 Solar Calculator. All rights reserved.</p>
     </div>
+  </footer>
 
-    <p>&copy; 2026 Solar Calculator. All rights reserved.</p>
-    <p>Some generic footer text. Links, contact info, or disclaimers can go here.</p>
-  </div>
-</footer>
-
-  
-  
-  
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/js/script.js"></script>
   <script>
     // Toggle mobile menu
@@ -70,4 +88,3 @@
   </script>
 </body>
 </html>
-
