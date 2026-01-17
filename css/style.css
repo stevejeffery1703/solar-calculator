@@ -374,6 +374,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+
+/* ================= SINGLE-COLUMN CARD ================= */
+.card-single-column .card-row {
+  display: block; /* just one column, no flex needed */
+}
+
+.card-single-column .card-text.full-width {
+  flex: 1 1 100%;      /* take full width */
+  padding: 20px;       /* same padding as regular cards */
+  background: #fff;    /* white background */
+  border-radius: 10px; /* optional: match other cards */
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08); /* subtle shadow */
+}
+
+
 /* ================= TOP LAYOUT ================= */
 .top-layout {
   display: block;
@@ -706,7 +721,7 @@ input[type="range"]::-ms-fill-upper {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* slightly bigger gap for larger chevron */
+  gap: 8px;
   padding: 6px 15px;
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
@@ -715,18 +730,25 @@ input[type="range"]::-ms-fill-upper {
   border: 1px solid var(--main-color);
   border-radius: 6px;
   background: transparent;
-  text-decoration: none; /* remove underline from global link styles */
+  text-decoration: none !important; /* remove underline */
   cursor: pointer;
   transition: 
     color 0.25s ease,
     border-color 0.25s ease;
+  position: relative; /* needed to override ::after underline */
+}
+
+.main-button::after {
+  display: none !important; /* disable global underline */
+  content: none !important;
 }
 
 .main-button .chevron {
   display: inline-block;
-  font-size: 1.6em; /* increase chevron size */
+  font-size: 1.4em; /* balanced size */
+  line-height: 1;
+  vertical-align: middle; /* aligns with text */
   transition: transform 0.25s ease, color 0.25s ease;
-  line-height: 1; /* prevents vertical misalignment */
 }
 
 /* Hover / Focus state */
@@ -734,14 +756,45 @@ input[type="range"]::-ms-fill-upper {
 .main-button:focus {
   color: var(--accent-color);
   border-color: var(--accent-color);
-  background-color: transparent; /* removed opacity highlight */
+  background-color: transparent;
   outline: none;
-  text-decoration: none !important; /* ensure no underline on hover */
+  text-decoration: none !important;
 }
 
 .main-button:hover .chevron,
 .main-button:focus .chevron {
   color: var(--accent-color);
-  transform: translateX(3px); /* subtle right movement */
+  transform: translateX(3px);
 }
 
+
+/* =============== FOOTER LINKS =============== */
+.site-footer a {
+  color: #ffffff;                 /* white text */
+  font-weight: 400;
+  text-decoration: none;          /* remove default underline */
+  position: relative;             /* needed for pseudo-element */
+  transition: color 0.3s ease;
+}
+
+.site-footer a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;                   /* adjust to sit just under text */
+  width: 0;
+  height: 2px;
+  background-color: #ffffff;      /* white underline */
+  transition: width 0.3s ease;
+}
+
+.site-footer a:hover,
+.site-footer a:focus {
+  color: #ffffff;                 /* keep white on hover */
+  outline: none;
+}
+
+.site-footer a:hover::after,
+.site-footer a:focus::after {
+  width: 100%;                    /* animate underline left to right */
+}
