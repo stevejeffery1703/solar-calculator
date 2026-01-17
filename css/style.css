@@ -16,6 +16,11 @@ body, html {
   color: var(--text-color);
 }
 
+/* Emphasis italic font */
+.italic {
+  font-style: italic;
+}
+
 /* ================= GLOBAL LINKS ================= */
 a {
   color: var(--main-color);           /* main blue (#1f4e79) */
@@ -707,15 +712,24 @@ input[type="range"]::-ms-fill-upper {
 }
 
 /* ================ Logo image ============== */
-.logo a,
-.footer-logo a {
-  display: inline-block;
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo a {
+  display: flex;
+  align-items: center;
 }
 
 .logo-header-img {
   height: 60px;
   width: auto;
   display: block;
+}
+
+.footer-logo a {
+  display: inline-block;
 }
 
 .footer-logo {
