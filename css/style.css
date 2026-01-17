@@ -798,3 +798,12 @@ input[type="range"]::-ms-fill-upper {
 .site-footer a:focus::after {
   width: 100%;                    /* animate underline left to right */
 }
+
+/* =============== AFFILIATE DISCLOSURE TEXT =============== */
+
+.affiliate-disclosure {
+  font-size: 0.8em;           /* smaller than body text */
+  color: #6b6b6b;             /* pale grey for subtlety */
+  margin-top: 12px;           /* space above links */
+  line-height: 1.35;          /* keeps text readable even smaller */
+}
