@@ -843,3 +843,9 @@ input[type="range"]::-ms-fill-upper {
   margin-top: 12px;           /* space above links */
   line-height: 1.35;          /* keeps text readable even smaller */
 }
+
+/* ================= GEO-SPECIFIC NEXT STEPS ================= */
+
+.geo-section {
+  display: none;
+}

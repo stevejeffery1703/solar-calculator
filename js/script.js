@@ -10,6 +10,64 @@ const YEARS = 25;
 const PANEL_DEGRADATION = 0.5 / 100; // 0.5% annual output loss
 
 // ============================================
+// State display names (for UI text)
+// ============================================
+const STATE_NAMES = {
+  AL: "Alabama",
+  AK: "Alaska",
+  AZ: "Arizona",
+  AR: "Arkansas",
+  CA: "California",
+  CO: "Colorado",
+  CT: "Connecticut",
+  DC: "Washington DC",
+  DE: "Delaware",
+  FL: "Florida",
+  GA: "Georgia",
+  HI: "Hawaii",
+  ID: "Idaho",
+  IL: "Illinois",
+  IN: "Indiana",
+  IA: "Iowa",
+  KS: "Kansas",
+  KY: "Kentucky",
+  LA: "Louisiana",
+  ME: "Maine",
+  MD: "Maryland",
+  MA: "Massachusetts",
+  MI: "Michigan",
+  MN: "Minnesota",
+  MS: "Mississippi",
+  MO: "Missouri",
+  MT: "Montana",
+  NE: "Nebraska",
+  NV: "Nevada",
+  NH: "New Hampshire",
+  NJ: "New Jersey",
+  NM: "New Mexico",
+  NY: "New York",
+  NC: "North Carolina",
+  ND: "North Dakota",
+  OH: "Ohio",
+  OK: "Oklahoma",
+  OR: "Oregon",
+  PA: "Pennsylvania",
+  RI: "Rhode Island",
+  SC: "South Carolina",
+  SD: "South Dakota",
+  TN: "Tennessee",
+  TX: "Texas",
+  UT: "Utah",
+  VT: "Vermont",
+  VA: "Virginia",
+  WA: "Washington",
+  WV: "West Virginia",
+  WI: "Wisconsin",
+  WY: "Wyoming"
+};
+
+
+// ============================================
 // Site efficiency settings
 // ============================================
 const SITE_EFFICIENCY_LEVELS = [
@@ -110,6 +168,39 @@ function formatMoney(x) {
 }
 
 // ============================================
+// GEO-SPECIFIC NEXT STEPS
+// ============================================
+
+function updateNextStepsForState(stateCode) {
+  const sections = document.querySelectorAll(".geo-section");
+  let matched = false;
+
+  sections.forEach(section => {
+    section.style.display = "none";
+
+    const states = section.dataset.states;
+    if (states) {
+      const stateList = states.split(",").map(s => s.trim());
+      if (stateList.includes(stateCode)) {
+        section.style.display = "block";
+        matched = true;
+      }
+    }
+  });
+
+  if (!matched) {
+    const generic = document.querySelector(".geo-generic");
+    if (generic) generic.style.display = "block";
+  }
+
+  const stateNameEl = document.getElementById("nextStepsStateName");
+  if (stateNameEl) {
+    stateNameEl.textContent = STATE_NAMES[stateCode] || stateCode;
+  }
+}
+
+
+// ============================================
 // MAP BEHAVIOUR
 // ============================================
 function setSelectedState(stateCode) {
@@ -123,6 +214,7 @@ function setSelectedState(stateCode) {
   }
   refreshDisplays();
   updateAndRender();
+  updateNextStepsForState(stateCode);
 }
 
 statePaths.forEach(path => {
