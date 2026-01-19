@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Plan Your Solar Installation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <div class="container header-container">
+      <div class="logo">
+        <a href="/" aria-label="Solar Calculator Home">
+          <img src="/assets/logo-color.png" alt="Solar Calculator Logo" class="logo-header-img">
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/plan-your-solar-installation">Plan Your Solar Installation</a></li>
+          <li><a href="/about" class="active">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= CARD SECTIONS ================= -->
+  
+<div class="container">
+
+
+<!-- Full width card -->
+<section class="card-for-columns card-single-column">
+  <div class="card-row">
+    <div class="card-text full-width">
+      <h1>Contact Us</h1>
+      <p>To contact the SunWise team, please email us at <span id="email-copy" class="copy-email">
+    <span id="email-text"></span>
+    <span class="copy-tooltip">Click to copy</span>
+  </span></p>
+
+    
+    
+    </div>
+  </div>
+</section>
+
+
+</div>
+
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-logo">
+        <a href="/" aria-label="Solar Calculator Home">
+          <img src="/assets/logo-white.png" alt="Solar Calculator Logo" class="logo-footer-img">
+        </a>
+      </div>
+      <p>&copy; 2026 Solar Calculator. All rights reserved.</p>
+      <p>
+      <a href="/">Home</a>
+      |
+      <a href="/plan-your-solar-installation">Plan Your Solar Installation</a>
+      |
+      <a href="/about">About</a>
+      |
+      <a href="/contact">Contact</a></li>
+      |
+      <a href="/privacy-and-legal">Privacy and Legal</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/script.js"></script>
+  <script>
+    // Toggle mobile menu
+    const navToggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+    navToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("nav-open");
+    });
+  </script>
+  
+  
+<!-- ================= JS for clickable email ================= -->
+
+<script>
+  (function () {
+    const a = ["con", "tact"];
+    const b = ["sunwise", "calculator"];
+    const c = ["com"];
+
+    const user = a.join("");
+    const domain = b.join("") + "." + c[0];
+    const email = user + "@" + domain;
+
+    const textEl = document.getElementById("email-text");
+    const copyContainer = document.getElementById("email-copy");
+
+    if (textEl && copyContainer) {
+      textEl.textContent = email;
+
+      copyContainer.addEventListener("click", function () {
+        navigator.clipboard.writeText(email).then(function () {
+          const tooltip = copyContainer.querySelector(".copy-tooltip");
+          tooltip.textContent = "Copied!";
+          tooltip.style.visibility = "visible";
+          tooltip.style.opacity = "1";
+
+          setTimeout(function () {
+            tooltip.textContent = "Click to copy";
+            tooltip.style.opacity = "0";
+            tooltip.style.visibility = "hidden";
+          }, 1500);
+        });
+      });
+    }
+  })();
+</script>
+
+  
+</body>
+</html>

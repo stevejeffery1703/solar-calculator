@@ -211,7 +211,7 @@ h6 { font-size: 0.9em; }   /* 13.5px */
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 10px;
+  gap: 20px;
   margin: 0;
   padding: 10px;
 }
@@ -848,4 +848,44 @@ input[type="range"]::-ms-fill-upper {
 
 .geo-section {
   display: none;
+}
+
+
+/* ================= STYLING FOR CLICKABLE EMAIL ADDRESS ================= */
+.copy-email {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--main-color);        /* main blue by default */
+  transition: color 0.2s ease;    /* smooth transition on hover */
+}
+
+.copy-email:hover {
+  color: var(--accent-color);     /* highlight color on hover */
+}
+
+.copy-tooltip {
+  visibility: hidden;
+  background-color: var(--accent-color);
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  position: absolute;
+  bottom: 125%; /* above the text */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.copy-email:hover .copy-tooltip {
+  visibility: visible;
+  opacity: 1;
 }
