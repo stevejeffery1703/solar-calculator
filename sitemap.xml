@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/</loc>
+    <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/plan-your-solar-installation</loc>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/about</loc>
+    <priority>0.60</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/contact</loc>
+    <priority>0.60</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/privacy-and-legal</loc>
+    <priority>0.30</priority>
+  </url>
+
+</urlset>
