@@ -10,62 +10,34 @@ const YEARS = 25;
 const PANEL_DEGRADATION = 0.5 / 100; // 0.5% annual output loss
 
 // ============================================
+// Historical cost trend data (context charts)
+// ============================================
+const electricityCostData = {
+  years: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+  costPerKWh: [0.0824, 0.0858, 0.0844, 0.0872, 0.0895, 0.0945, 0.104, 0.1065, 0.1126, 0.1151, 0.1154, 0.1172, 0.1188, 0.1213, 0.1252, 0.1265, 0.1255, 0.1289, 0.1287, 0.1301, 0.1315, 0.1366, 0.1504, 0.16, 0.1648]
+};
+
+const solarCostData = {
+  years: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+  costPerKW: [15300, 14800, 15100, 13400, 12400, 11700, 12000, 12200, 11700, 11100, 9500, 8400, 7100, 6100, 5600, 5400, 5200, 4900, 4700, 4600, 4600, 4600, 4500, 4300, 4000]
+};
+
+// ============================================
 // State display names (for UI text)
 // ============================================
 const STATE_NAMES = {
-  AL: "Alabama",
-  AK: "Alaska",
-  AZ: "Arizona",
-  AR: "Arkansas",
-  CA: "California",
-  CO: "Colorado",
-  CT: "Connecticut",
-  DC: "Washington DC",
-  DE: "Delaware",
-  FL: "Florida",
-  GA: "Georgia",
-  HI: "Hawaii",
-  ID: "Idaho",
-  IL: "Illinois",
-  IN: "Indiana",
-  IA: "Iowa",
-  KS: "Kansas",
-  KY: "Kentucky",
-  LA: "Louisiana",
-  ME: "Maine",
-  MD: "Maryland",
-  MA: "Massachusetts",
-  MI: "Michigan",
-  MN: "Minnesota",
-  MS: "Mississippi",
-  MO: "Missouri",
-  MT: "Montana",
-  NE: "Nebraska",
-  NV: "Nevada",
-  NH: "New Hampshire",
-  NJ: "New Jersey",
-  NM: "New Mexico",
-  NY: "New York",
-  NC: "North Carolina",
-  ND: "North Dakota",
-  OH: "Ohio",
-  OK: "Oklahoma",
-  OR: "Oregon",
-  PA: "Pennsylvania",
-  RI: "Rhode Island",
-  SC: "South Carolina",
-  SD: "South Dakota",
-  TN: "Tennessee",
-  TX: "Texas",
-  UT: "Utah",
-  VT: "Vermont",
-  VA: "Virginia",
-  WA: "Washington",
-  WV: "West Virginia",
-  WI: "Wisconsin",
+  AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California",
+  CO: "Colorado", CT: "Connecticut", DC: "Washington DC", DE: "Delaware", FL: "Florida",
+  GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana",
+  IA: "Iowa", KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine",
+  MD: "Maryland", MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi",
+  MO: "Missouri", MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire",
+  NJ: "New Jersey", NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota",
+  OH: "Ohio", OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island",
+  SC: "South Carolina", SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah",
+  VT: "Vermont", VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin",
   WY: "Wyoming"
 };
-
 
 // ============================================
 // Site efficiency settings
@@ -142,11 +114,10 @@ const annualIncreaseDisplay = document.getElementById("annualIncreaseDisplay");
 
 const singleIncentiveInput = document.getElementById("singleIncentive");
 
-const netYearlyCtx = document.getElementById("netYearlyChart").getContext("2d");
-const netCumulativeCtx = document.getElementById("netCumulativeChart").getContext("2d");
-
 let netYearlyChart;
 let netCumulativeChart;
+let electricityCostChart;
+let solarCostChart;
 
 // ============================================
 // STATE
@@ -170,14 +141,12 @@ function formatMoney(x) {
 // ============================================
 // GEO-SPECIFIC NEXT STEPS
 // ============================================
-
 function updateNextStepsForState(stateCode) {
   const sections = document.querySelectorAll(".geo-section");
   let matched = false;
 
   sections.forEach(section => {
     section.style.display = "none";
-
     const states = section.dataset.states;
     if (states) {
       const stateList = states.split(",").map(s => s.trim());
@@ -198,7 +167,6 @@ function updateNextStepsForState(stateCode) {
     stateNameEl.textContent = STATE_NAMES[stateCode] || stateCode;
   }
 }
-
 
 // ============================================
 // MAP BEHAVIOUR
@@ -249,33 +217,32 @@ if (stateSelect) {
 // UI DISPLAY UPDATES
 // ============================================
 function refreshDisplays() {
-  const kw = parseInt(homeSizeSlider.value, 10);
-  homeSizeLabel.textContent = `${kw} kW`;
-  systemCostDisplay.textContent = `$${formatMoney(kw * COST_PER_KW)}`;
+  if (homeSizeSlider && homeSizeLabel && systemCostDisplay && dailyKwhDisplay) {
+    const kw = parseInt(homeSizeSlider.value, 10);
+    homeSizeLabel.textContent = `${kw} kW`;
+    systemCostDisplay.textContent = `$${formatMoney(kw * COST_PER_KW)}`;
+    const solarFactor = solarPotential[selectedState] || 0.30;
+    const siteEfficiency = siteEfficiencySlider ? SITE_EFFICIENCY_LEVELS[parseInt(siteEfficiencySlider.value, 10)] : SITE_EFFICIENCY_LEVELS[2];
+    if (siteEfficiencyDisplay) siteEfficiencyDisplay.textContent = siteEfficiency.label;
+    const annualKWh = kw * BASE_KWH_PER_KW * solarFactor * siteEfficiency.factor;
+    dailyKwhDisplay.textContent = `${(annualKWh / 365).toFixed(1)} kWh/day`;
+  }
 
-  const solarFactor = solarPotential[selectedState] || 0.30;
-  const siteEfficiency = SITE_EFFICIENCY_LEVELS[parseInt(siteEfficiencySlider.value, 10)];
-  siteEfficiencyDisplay.textContent = siteEfficiency.label;
+  if (interestRateInput && interestRateDisplay) interestRateDisplay.textContent = `${parseFloat(interestRateInput.value).toFixed(1)}%`;
+  if (repaymentYearsInput && repaymentYearsDisplay) repaymentYearsDisplay.textContent = `${repaymentYearsInput.value} years`;
 
-  const annualKWh =
-    kw *
-    BASE_KWH_PER_KW *
-    solarFactor *
-    siteEfficiency.factor;
-
-  const dailyKWh = annualKWh / 365;
-  dailyKwhDisplay.textContent = `${dailyKWh.toFixed(1)} kWh/day`;
-
-  interestRateDisplay.textContent = `${parseFloat(interestRateInput.value).toFixed(1)}%`;
-  repaymentYearsDisplay.textContent = `${repaymentYearsInput.value} years`;
-
-  currentKwhCostDisplay.textContent = `$${parseFloat(currentKwhCostInput.value).toFixed(2)}`;
-  annualIncreaseDisplay.textContent = `${parseFloat(annualIncreaseInput.value).toFixed(1)}%`;
+  if (currentKwhCostInput && currentKwhCostDisplay) currentKwhCostDisplay.textContent = `$${parseFloat(currentKwhCostInput.value).toFixed(2)}`;
+  if (annualIncreaseInput && annualIncreaseDisplay) annualIncreaseDisplay.textContent = `${parseFloat(annualIncreaseInput.value).toFixed(1)}%`;
 }
 
+// ============================================
+// PAYMENT TYPE UI
+// ============================================
 function handlePaymentTypeUI() {
-  const type = Array.from(paymentTypeRadios).find(r => r.checked).value;
-  financingInputs.style.display = (type === "financing") ? "block" : "none";
+  if (paymentTypeRadios && financingInputs) {
+    const checked = Array.from(paymentTypeRadios).find(r => r.checked);
+    if (checked) financingInputs.style.display = (checked.value === "financing") ? "block" : "none";
+  }
 }
 
 // ============================================
@@ -285,21 +252,14 @@ function calculateNetSavings(inputs) {
   const systemCost = inputs.systemKW * COST_PER_KW;
   const solarFactor = solarPotential[selectedState] || 0.30;
   const siteEfficiency = SITE_EFFICIENCY_LEVELS[inputs.siteEfficiencyIndex];
-
-  const annualKWh =
-    inputs.systemKW *
-    BASE_KWH_PER_KW *
-    solarFactor *
-    siteEfficiency.factor;
+  const annualKWh = inputs.systemKW * BASE_KWH_PER_KW * solarFactor * siteEfficiency.factor;
 
   let monthlyPayment = 0;
   if (inputs.paymentType === "financing") {
     const principal = Math.max(0, systemCost - inputs.downpayment);
     const r = (inputs.interestRate / 100) / 12;
     const n = inputs.repaymentYears * 12;
-    monthlyPayment = r === 0
-      ? principal / n
-      : (principal * r) / (1 - Math.pow(1 + r, -n));
+    monthlyPayment = r === 0 ? principal / n : (principal * r) / (1 - Math.pow(1 + r, -n));
   }
 
   let cumulative = 0;
@@ -307,26 +267,17 @@ function calculateNetSavings(inputs) {
 
   for (let y = 1; y <= YEARS; y++) {
     let payment = 0;
-
     if (inputs.paymentType === "upfront" && y === 1) payment = systemCost;
-
     if (inputs.paymentType === "financing") {
       if (y === 1) payment += inputs.downpayment;
       if (y <= inputs.repaymentYears) payment += monthlyPayment * 12;
     }
-
-    const price = inputs.currentKwhCost *
-      Math.pow(1 + inputs.annualIncrease / 100, y - 1);
-
-    const degradedAnnualKWh =
-      annualKWh * Math.pow(1 - PANEL_DEGRADATION, y - 1);
-
+    const price = inputs.currentKwhCost * Math.pow(1 + inputs.annualIncrease / 100, y - 1);
+    const degradedAnnualKWh = annualKWh * Math.pow(1 - PANEL_DEGRADATION, y - 1);
     const value = degradedAnnualKWh * price;
     const incentive = (y === 1) ? inputs.incentive : 0;
-
     const net = value - payment + incentive;
     cumulative += net;
-
     rows.push({ year: y, net, cumulative });
   }
 
@@ -337,15 +288,19 @@ function calculateNetSavings(inputs) {
 // RENDER CHARTS + TOTAL SAVINGS
 // ============================================
 function renderResults(rows) {
+  const netYearlyCanvas = document.getElementById("netYearlyChart");
+  const netCumulativeCanvas = document.getElementById("netCumulativeChart");
+  if (!netYearlyCanvas || !netCumulativeCanvas) return;
+
+  const netYearlyCtx = netYearlyCanvas.getContext("2d");
+  const netCumulativeCtx = netCumulativeCanvas.getContext("2d");
+
   const labels = rows.map(r => `Y${r.year}`);
   const netVals = rows.map(r => r.net);
   const cumVals = rows.map(r => r.cumulative);
 
   const totalSavingsDisplay = document.getElementById("totalSavingsDisplay");
-  if (totalSavingsDisplay) {
-    totalSavingsDisplay.textContent =
-      `$${formatMoney(cumVals[cumVals.length - 1] || 0)}`;
-  }
+  if (totalSavingsDisplay) totalSavingsDisplay.textContent = `$${formatMoney(cumVals[cumVals.length - 1] || 0)}`;
 
   if (netYearlyChart) netYearlyChart.destroy();
   if (netCumulativeChart) netCumulativeChart.destroy();
@@ -362,30 +317,53 @@ function renderResults(rows) {
 
   netYearlyChart = new Chart(netYearlyCtx, {
     type: "bar",
-    data: {
-      labels,
-      datasets: [{
-        data: netVals,
-        backgroundColor: netVals.map(v => v >= 0 ? "#4caf50" : "#f44336")
-      }]
-    },
+    data: { labels, datasets: [{ data: netVals, backgroundColor: netVals.map(v => v >= 0 ? "#4caf50" : "#f44336") }] },
     options: baseOptions
   });
 
   netCumulativeChart = new Chart(netCumulativeCtx, {
     type: "line",
-    data: {
-      labels,
-      datasets: [{
-        data: cumVals,
-        borderColor: "#1565c0",
-        borderWidth: 2,
-        tension: 0.2,
-        pointRadius: 3,
-        fill: false
-      }]
-    },
+    data: { labels, datasets: [{ data: cumVals, borderColor: "#1565c0", borderWidth: 2, tension: 0.2, pointRadius: 3, fill: false }] },
     options: baseOptions
+  });
+}
+
+// ============================================
+// RENDER CONTEXT CHARTS (STATIC)
+// ============================================
+function renderElectricityCostChart() {
+  const canvas = document.getElementById("electricityCostChart");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (electricityCostChart) electricityCostChart.destroy();
+
+  electricityCostChart = new Chart(ctx, {
+    type: "line",
+    data: { labels: electricityCostData.years, datasets: [{ data: electricityCostData.costPerKWh, borderColor: "#1565c0", borderWidth: 2, tension: 0.2, pointRadius: 3, fill: false }] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { ticks: { callback: v => `$${v.toFixed(2)}` } } }
+    }
+  });
+}
+
+function renderSolarCostChart() {
+  const canvas = document.getElementById("solarCostChart");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (solarCostChart) solarCostChart.destroy();
+
+  solarCostChart = new Chart(ctx, {
+    type: "line",
+    data: { labels: solarCostData.years, datasets: [{ data: solarCostData.costPerKW, borderColor: "#f9a825", borderWidth: 2, tension: 0.2, pointRadius: 3, fill: false }] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { ticks: { callback: v => `$${v.toLocaleString()}` } } }
+    }
   });
 }
 
@@ -393,38 +371,40 @@ function renderResults(rows) {
 // MAIN UPDATE
 // ============================================
 function updateAndRender() {
+  if (!homeSizeSlider || !siteEfficiencySlider || !currentKwhCostInput || !annualIncreaseInput || !paymentTypeRadios) return;
+
   const paymentType = Array.from(paymentTypeRadios).find(r => r.checked).value;
 
   const rows = calculateNetSavings({
     systemKW: parseInt(homeSizeSlider.value, 10),
     siteEfficiencyIndex: parseInt(siteEfficiencySlider.value, 10),
     paymentType,
-    downpayment: parseFloat(downpaymentInput.value || 0),
-    interestRate: parseFloat(interestRateInput.value || 0),
-    repaymentYears: parseInt(repaymentYearsInput.value || 0, 10),
+    downpayment: downpaymentInput ? parseFloat(downpaymentInput.value || 0) : 0,
+    interestRate: interestRateInput ? parseFloat(interestRateInput.value || 0) : 0,
+    repaymentYears: repaymentYearsInput ? parseInt(repaymentYearsInput.value || 0, 10) : 0,
     currentKwhCost: parseFloat(currentKwhCostInput.value),
     annualIncrease: parseFloat(annualIncreaseInput.value),
-    incentive: parseFloat(singleIncentiveInput.value || 0)
+    incentive: singleIncentiveInput ? parseFloat(singleIncentiveInput.value || 0) : 0
   });
 
   renderResults(rows);
 }
 
 // ============================================
-// EVENT WIRING
+// EVENT WIRING (SAFE)
 // ============================================
-homeSizeSlider.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
-siteEfficiencySlider.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
+if (homeSizeSlider) homeSizeSlider.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
+if (siteEfficiencySlider) siteEfficiencySlider.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
 
-interestRateInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
-repaymentYearsInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
-currentKwhCostInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
-annualIncreaseInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
+if (interestRateInput) interestRateInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
+if (repaymentYearsInput) repaymentYearsInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
+if (currentKwhCostInput) currentKwhCostInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
+if (annualIncreaseInput) annualIncreaseInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
 
-downpaymentInput.addEventListener("input", updateAndRender);
-singleIncentiveInput.addEventListener("input", updateAndRender);
+if (downpaymentInput) downpaymentInput.addEventListener("input", updateAndRender);
+if (singleIncentiveInput) singleIncentiveInput.addEventListener("input", updateAndRender);
 
-paymentTypeRadios.forEach(r => r.addEventListener("change", () => {
+if (paymentTypeRadios) paymentTypeRadios.forEach(r => r.addEventListener("change", () => {
   handlePaymentTypeUI();
   updateAndRender();
 }));
@@ -435,15 +415,21 @@ paymentTypeRadios.forEach(r => r.addEventListener("change", () => {
 window.addEventListener("resize", () => {
   if (netYearlyChart) netYearlyChart.resize();
   if (netCumulativeChart) netCumulativeChart.resize();
+  if (electricityCostChart) electricityCostChart.resize();
+  if (solarCostChart) solarCostChart.resize();
 });
 
 // ============================================
-// INITIALISE
+// INITIALISE (SAFE)
 // ============================================
-refreshDisplays();
-handlePaymentTypeUI();
-setSelectedState(selectedState);
-updateAndRender();
+document.addEventListener("DOMContentLoaded", () => {
+  refreshDisplays();
+  handlePaymentTypeUI();
+  setSelectedState(selectedState);
+  updateAndRender();
+  renderElectricityCostChart();
+  renderSolarCostChart();
+});
 
 // ============================================
 // SLIDER DYNAMIC FILL FOR CHROME/SAFARI

@@ -556,6 +556,8 @@ h6 { font-size: 0.9em; }   /* 13.5px */
   width: 100%;
   position: relative;
   display: block;
+  padding-top: 12px;
+
 }
 
 .chart-box h3 {
@@ -575,8 +577,6 @@ h6 { font-size: 0.9em; }   /* 13.5px */
 .section h2 {
   margin-top: 0px;
   margin-bottom: 6px;
-  font-size: 1.3em;
-  font-weight: 500;
 }
 
 /* ================= TOTAL SAVINGS TEXT ================= */
@@ -888,4 +888,39 @@ input[type="range"]::-ms-fill-upper {
 .copy-email:hover .copy-tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+/* ================= SOURCE / CITATION LINKS ================= */
+
+.source-links {
+  font-size: 0.85em;          /* slightly smaller than body text */
+  color: #858585;             /* neutral gray */
+}
+
+.source-links a {
+  color: #858585;             /* same gray as text */
+  font-weight: 400;           /* remove bold emphasis */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+
+  /* kill global link behavior */
+  transition: none;
+}
+
+.source-links a::after {
+  display: none !important;   /* remove animated underline */
+}
+
+.source-links a:hover,
+.source-links a:focus {
+  color: #858585;             /* no hover color change */
+  text-decoration: underline;
+  outline: none;
+}
+
+/* ================= Spacing for lists ================= */
+
+li {
+  margin-bottom: 12px; /* adjust the spacing as needed */
 }

@@ -62,7 +62,7 @@
         <a href="/" class="main-button">Calculate your savings<span class="chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span></a>
       </div>
       <div class="card-image">
-        <img src="/assets/solar.jpg" alt="Roof assessment">
+        <img src="/assets/couple-looking-at-solar-power-options-on-laptop.jpg" alt="Couple looking at solar power options on laptop">
       </div>
     </div>
   </section>
@@ -80,10 +80,90 @@
          <a href="/about" >How does the SunWise solar calculator work?</a>
       </div>
       <div class="card-image">
-        <img src="/assets/solar.jpg" alt="Solar panels">
+        <img src="/assets/man-installing-solar-panel-on-roof-of-house.jpg" alt="Man installing solar panel on roof of house">
       </div>
     </div>
   </section>
+
+
+<!-- TEXT LEFT, CHART RIGHT -->
+<div class="section">
+ <div class="charts-container">
+ 
+  <div class="chart-box">
+    <h2>Electricity costs are increasing rapidly</h2>
+    <p>
+    Electricity costs have increased steadily in the last 25 years, more than <b>doubling since 2000</b>. 
+    Price rises have accelerated more recently, with an increase of <b>over 25% between 2020 and 2024</b> &mdash; a compounded annual growth rate of <b>5.8%</b>.
+    </p>
+    <p>This trend looks set to continue for years to come, particularly with the increasing demand from AI data centers, electric vehicles, and population growth.
+    </p>
+    <p>
+    By switching to solar, you could turn these price rises into big savings. 
+    Our free online calculator allows you to model the impact of these future price rises, so you can see how much you could save.
+    </p>
+    <a href="/" class="main-button">Calculate your savings<span class="chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span></a>
+
+  </div>
+
+  <div class="chart-box">
+    <h2>Electricity Prices Over Time</h2>
+    <canvas id="electricityCostChart"></canvas>
+     <p class="source-links">
+      Average electricity cost to domestic U.S. customers. Sources:
+      <a href="https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_3" target="_blank" rel="noopener noreferrer">
+      U.S. Energy Information Administration</a>
+      and
+      <a href="https://ycharts.com/indicators/us_average_retail_price_of_electricity_residential_sector_annual" target="_blank" rel="noopener noreferrer">
+      YCharts
+      </a>
+     </p>
+    
+  </div>
+  
+ </div>
+</div>
+
+
+<!-- TEXT LEFT, CHART RIGHT -->
+<div class="section">
+ <div class="charts-container">
+ 
+  <div class="chart-box">
+    <h2>Solar power has never been cheaper</h2>
+    <p>
+    The cost of domestic solar power has dropped dramatically since 2000. 
+    Today's systems are on average <b>74% cheaper</b> than in those early days &mdash; 
+    a huge tribute to recent advances in production technology and installation efficiency.
+    </p>
+    <p>
+    With <b>prices now at an all-time low</b>, there has never been a better time to invest in solar. 
+    </p>
+    <p>
+    Use the free SunWise calculator to work out how much you could save, 
+    or follow the links below for expert advice from a specialist installer.
+    </p>
+    <a href="/" class="main-button">Calculate your savings<span class="chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span></a>
+
+  </div>
+
+  <div class="chart-box">
+    <h2>Domestic Solar Cost Over Time</h2>
+    <canvas id="solarCostChart"></canvas>
+     <p class="source-links">
+      Average cost of installed domestic solar power to U.S. customers, not including government incentives. Source:
+      <a href="https://emp.lbl.gov/tracking-sun-tool" target="_blank" rel="noopener noreferrer">
+      Lawrence Berkeley National Laboratory Distributed Solar and Storage Data Update</a>
+     </p>
+    
+  </div>
+  
+ </div>
+</div>
+
+
+
+
 
 
 </div>
@@ -112,14 +192,16 @@
     </div>
   </footer>
 
-  <script src="/js/script.js"></script>
-  <script>
-    // Toggle mobile menu
-    const navToggle = document.querySelector(".nav-toggle");
-    const navLinks = document.querySelector(".nav-links");
-    navToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("nav-open");
-    });
-  </script>
+<!-- Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/script.js"></script>
+
+<script>
+  const navToggle = document.querySelector(".nav-toggle");
+  const navLinks = document.querySelector(".nav-links");
+  navToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("nav-open");
+  });
+</script>
 </body>
 </html>
