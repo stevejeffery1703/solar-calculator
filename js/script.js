@@ -329,8 +329,9 @@ function renderResults(rows) {
 }
 
 // ============================================
-// RENDER CONTEXT CHARTS (STATIC)
+// RENDER CONTEXT CHARTS (STATIC) — FIXED Y-AXIS
 // ============================================
+
 function renderElectricityCostChart() {
   const canvas = document.getElementById("electricityCostChart");
   if (!canvas) return;
@@ -339,12 +340,30 @@ function renderElectricityCostChart() {
 
   electricityCostChart = new Chart(ctx, {
     type: "line",
-    data: { labels: electricityCostData.years, datasets: [{ data: electricityCostData.costPerKWh, borderColor: "#1565c0", borderWidth: 2, tension: 0.2, pointRadius: 3, fill: false }] },
+    data: {
+      labels: electricityCostData.years,
+      datasets: [{
+        data: electricityCostData.costPerKWh,
+        borderColor: "#1565c0",
+        borderWidth: 2,
+        tension: 0.2,
+        pointRadius: 3,
+        fill: false
+      }]
+    },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
-      scales: { y: { ticks: { callback: v => `$${v.toFixed(2)}` } } }
+      scales: {
+        y: {
+          type: 'linear',     // ? ensure numeric scale
+          min: 0,             // ? force axis to start at 0
+          ticks: { callback: v => `$${v.toFixed(2)}` }
+        },
+        x: {
+        }
+      }
     }
   });
 }
@@ -357,12 +376,30 @@ function renderSolarCostChart() {
 
   solarCostChart = new Chart(ctx, {
     type: "line",
-    data: { labels: solarCostData.years, datasets: [{ data: solarCostData.costPerKW, borderColor: "#f9a825", borderWidth: 2, tension: 0.2, pointRadius: 3, fill: false }] },
+    data: {
+      labels: solarCostData.years,
+      datasets: [{
+        data: solarCostData.costPerKW,
+        borderColor: "#f9a825",
+        borderWidth: 2,
+        tension: 0.2,
+        pointRadius: 3,
+        fill: false
+      }]
+    },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
-      scales: { y: { ticks: { callback: v => `$${v.toLocaleString()}` } } }
+      scales: {
+        y: {
+          type: 'linear',     // ? ensure numeric scale
+          min: 0,             // ? force axis to start at 0
+          ticks: { callback: v => `$${v.toLocaleString()}` }
+        },
+        x: {
+        }
+      }
     }
   });
 }
