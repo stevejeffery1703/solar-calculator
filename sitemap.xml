@@ -27,4 +27,55 @@
     <priority>0.30</priority>
   </url>
 
+  <!-- Solar By State pages -->
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state</loc>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state/arizona</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state/california</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state/florida</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state/massachusetts</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state/nevada</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state/new-jersey</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state/new-york</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state/north-carolina</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.sunwisecalculator.com/solar-by-state/texas</loc>
+    <priority>0.80</priority>
+  </url>
+
 </urlset>

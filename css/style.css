@@ -924,3 +924,119 @@ input[type="range"]::-ms-fill-upper {
 li {
   margin-bottom: 12px; /* adjust the spacing as needed */
 }
+
+/* ================= STATE GRID ================= */
+.state-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.state-grid a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 12px;
+  background-color: #ffffff;       /* white background by default */
+  color: var(--main-color);                 /* blue text */
+  font-weight: 600;
+  text-align: center;
+  border-radius: 4px;
+  border: 2px solid var(--main-color);      /* 2px blue border */
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.state-grid a::after {
+  display: none; /* disable sliding underline from global links */
+}
+
+.state-grid a:hover,
+.state-grid a:focus {
+  background-color: rgba(217, 119, 6, 0.05); /* 5% yellow fill */
+  color: var(--accent-color);                           /* yellow text */
+  border-color: var(--accent-color);                    /* yellow border */
+  outline: none;
+}
+
+.state-grid a:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* ================= MOBILE ADJUSTMENTS ================= */
+@media (max-width: 768px) {
+  .state-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .state-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .state-grid a {
+    padding: 12px 10px;
+  }
+}
+
+
+/* ================= STATE BY STATE NAV SUBMENU ================= */
+
+.state-subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 24px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.state-subnav a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--main-color);
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--main-color);      /* 1px blue border */
+  transition: color 0.2s ease, background-color 0.2s ease;
+  text-decoration: none;
+}
+
+.state-subnav a::after {
+  display: none;
+}
+
+.state-subnav a:hover {
+  background-color: rgba(31, 78, 121, 0.1);
+}
+
+.state-subnav a.active {
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);      /* 1px yellow border */
+  background-color: rgba(217, 119, 6, 0.05);
+}
+
+.state-subnav a:hover,
+.state-subnav a:focus {
+  text-decoration: none;
+}
+
+
+@media (max-width: 768px) {
+  .state-subnav {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-state-link {
+    display: none;
+  }
+}
+

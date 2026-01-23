@@ -13,8 +13,9 @@
 </script>
 
   <meta charset="UTF-8">
-  <title>Contact SunWise – Free Online Solar Calculator</title>
-  <meta name="description" content="Contact SunWise for questions about our solar calculator and how you can save on electricity with solar energy.">
+  <title>SunWise Solar Calculator – Plan your solar installation</title>
+  <meta name="description" content="Plan your residential solar system for the SunWise solar calculator to estimate your home electricity savings. Simple, interactive, and free to use.">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +42,7 @@
         <ul class="nav-links">
           <li><a href="/">Home</a></li>
           <li><a href="/plan-your-solar-installation">Plan Your Solar Installation</a></li>
-          <li><a href="/solar-by-state">Solar By State</a></li>
+          <li><a href="/solar-by-state" class="active">Solar By State</a></li>
           <li><a href="/about">About</a></li>
         </ul>
       </nav>
@@ -52,33 +53,53 @@
   
 <div class="container">
 
+<section class="card-for-columns card-single-column">
+  <div class="card-row">
+    <div class="card-text full-width">
+    <h1>Solar By State</h1>
+    <p>Different geographical locations present different opportunities for solar power, 
+    and it's important to plan carefully with these in mind.</p>
+    <p><b>Select your state to learn more about solar where you live.</b></p>
+    </div>
+  </div>
+</section>
+
+
 
   <!-- Card 1 -->
   <section class="card-for-columns">
     <div class="card-row text-left">
       <div class="card-text">
-      <h1>Contact Us</h1>
-      <p>To contact the SunWise team, please email us at <span id="email-copy" class="copy-email">
-    <span id="email-text"></span>
-    <span class="copy-tooltip">Click to copy</span>
-  </span></p>
+        <h2>Select Your State</h2>
+        
+<div class="state-grid">
+  <a href="/solar-by-state/arizona">Arizona</a>
+  <a href="/solar-by-state/california">California</a>
+  <a href="/solar-by-state/florida">Florida</a>
+  <a href="/solar-by-state/massachusetts">Massachusetts</a>
+  <a href="/solar-by-state/nevada">Nevada</a>
+  <a href="/solar-by-state/new-jersey">New Jersey</a>
+  <a href="/solar-by-state/new-york">New York</a>
+  <a href="/solar-by-state/north-carolina">North Carolina</a>
+  <a href="/solar-by-state/texas">Texas</a>
+</div>
 
+    <p>If you're state isn't listed, then solar power can still work for you!</p>
+    <p>Follow the links below to our trusted national partners, and they'll be able to advise you about the best way forward. 
+    Or click the button to calculate your savings using the free SunWise solar calculator.</p>   
+
+    <a href="/" class="main-button">Calculate your savings<span class="chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span></a>
+        
       </div>
       <div class="card-image">
-        <img src="/assets/woman-in-office-responding-to-solar-power-inquiries.jpg" alt="Woman in office responding to solar power inquiries">
+        <img src="/assets/couple-looking-at-solar-power-options-on-laptop.jpg" alt="Couple looking at solar power options on laptop">
       </div>
     </div>
   </section>
 
 
+
 </div>
-
-
-
-
-
-
-
 
 
   <!-- ================= FOOTER ================= -->
@@ -106,53 +127,16 @@
     </div>
   </footer>
 
-  <script src="/js/script.js"></script>
-  <script>
-    // Toggle mobile menu
-    const navToggle = document.querySelector(".nav-toggle");
-    const navLinks = document.querySelector(".nav-links");
-    navToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("nav-open");
-    });
-  </script>
-  
-  
-<!-- ================= JS for clickable email ================= -->
+<!-- Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/script.js"></script>
 
 <script>
-  (function () {
-    const a = ["con", "tact"];
-    const b = ["sunwise", "calculator"];
-    const c = ["com"];
-
-    const user = a.join("");
-    const domain = b.join("") + "." + c[0];
-    const email = user + "@" + domain;
-
-    const textEl = document.getElementById("email-text");
-    const copyContainer = document.getElementById("email-copy");
-
-    if (textEl && copyContainer) {
-      textEl.textContent = email;
-
-      copyContainer.addEventListener("click", function () {
-        navigator.clipboard.writeText(email).then(function () {
-          const tooltip = copyContainer.querySelector(".copy-tooltip");
-          tooltip.textContent = "Copied!";
-          tooltip.style.visibility = "visible";
-          tooltip.style.opacity = "1";
-
-          setTimeout(function () {
-            tooltip.textContent = "Click to copy";
-            tooltip.style.opacity = "0";
-            tooltip.style.visibility = "hidden";
-          }, 1500);
-        });
-      });
-    }
-  })();
+  const navToggle = document.querySelector(".nav-toggle");
+  const navLinks = document.querySelector(".nav-links");
+  navToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("nav-open");
+  });
 </script>
-
-  
 </body>
 </html>
