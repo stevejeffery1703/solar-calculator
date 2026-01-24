@@ -331,6 +331,10 @@ h6 { font-size: 0.9em; }   /* 13.5px */
   padding: 20px; /* only the text column has padding */
   box-sizing: border-box;
   background: #fff; /* optional: white background behind text */
+
+  display: flex;            /* make this a flex container */
+  flex-direction: column;   /* stack children vertically */
+
 }
 
 /* Image column */
@@ -803,6 +807,13 @@ input[type="range"]::-ms-fill-upper {
   transform: translateX(3px);
 }
 
+/* Stop button stretching to full width */
+
+.card-text .main-button {
+  width: auto;      /* only as wide as content */
+  align-self: flex-start; /* prevents stretching in flex column */
+}
+
 
 /* =============== FOOTER LINKS =============== */
 .site-footer a {
@@ -840,9 +851,11 @@ input[type="range"]::-ms-fill-upper {
 .affiliate-disclosure {
   font-size: 0.8em;           /* smaller than body text */
   color: #6b6b6b;             /* pale grey for subtlety */
-  margin-top: 12px;           /* space above links */
   line-height: 1.35;          /* keeps text readable even smaller */
+  margin-top: auto;         /* pushes this div to the bottom */
+  padding-top: 20px;           /* ensures at least 10px spacing above */
 }
+
 
 /* ================= GEO-SPECIFIC NEXT STEPS ================= */
 
@@ -1040,3 +1053,112 @@ li {
   }
 }
 
+/* ================= AFFILIATE RECOMMENDATION PANEL ================= */
+
+/* --- Logo --- */
+
+.affiliate-logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.affiliate-logo img {
+  height: 20px;
+  width: auto;
+  opacity: 0.85;
+}
+
+/* --- CTA button --- */
+.affiliate-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 15px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1em;
+  color: var(--main-color);
+  border: 1px solid var(--main-color);
+  border-radius: 6px;
+  background: transparent;
+  text-decoration: none !important; /* remove underline */
+  cursor: pointer;
+  transition: 
+    color 0.25s ease,
+    border-color 0.25s ease;
+  position: relative; /* needed to override ::after underline */
+}
+
+.affiliate-cta::after {
+  display: none !important; /* disable global underline */
+  content: none !important;
+}
+
+.affiliate-cta .arrow {
+  display: inline-block;
+  font-size: 1.4em; /* balanced size */
+  line-height: 1;
+  vertical-align: middle; /* aligns with text */
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+/* Hover / Focus state */
+.affiliate-cta:hover,
+.affiliate-cta:focus {
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  background-color: transparent;
+  outline: none;
+  text-decoration: none !important;
+}
+
+.affiliate-cta:hover .arrow,
+.affiliate-cta:focus .arrow {
+  color: var(--accent-color);
+  transform: translate(3px, -3px); /* combine X and Y in one transform */
+  transition: transform 0.2s ease, color 0.2s ease; /* smooth animation */
+}
+
+/* --- Container and alignment for Affiliate CTA, advisory text, and logo --- */
+.affiliate-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* aligns children to the top */
+  flex-wrap: wrap; /* stacks on mobile */
+  gap: 20px;
+}
+
+.affiliate-left {
+  flex: 1 1 auto; /* button takes available space */
+  min-width: 200px; /* prevents shrinking too much on mobile */
+}
+
+.affiliate-right {
+  flex: 1 1 auto;
+  text-align: right;
+  min-width: 150px;
+}
+
+.affiliate-right p {
+  margin: 0 0 8px 0;
+  font-size: 0.8em;           /* smaller than body text */
+  color: #6b6b6b;             /* pale grey for subtlety */
+  line-height: 1.35;          /* keeps text readable even smaller */
+}
+
+.affiliate-logo {
+  max-width: 150px;
+  height: auto;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .affiliate-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .affiliate-right {
+    text-align: center;
+  }
+}
