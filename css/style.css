@@ -1170,7 +1170,23 @@ li {
   font-size: 0.8em;           /* smaller than body text */
   color: #737373;             /* pale grey for subtlety */
   line-height: 1.35;          /* keeps text readable even smaller */
-  margin-top: auto;         /* pushes this div to the bottom */
-  padding-top: 20px;           /* ensures at least 10px spacing above */
+  margin-top: 60px;           /* ensures at least 60px spacing above */
 }
 
+/* =============== AFFILIATE SUBHEADING ABOVE BUTTON =============== */
+.affiliate-subheading {
+  font-size: 1.2rem;            /* slightly smaller than main headings */
+  font-weight: 500;            /* medium weight, not too bold */
+  margin: 10px 0 10px 0;           /* small space below the heading */
+  line-height: 1.3;            /* comfortable line spacing */
+  text-transform: none;        /* keep normal case */
+  padding-top: 8px;           /* space between border and text */
+}
+
+.affiliate-separator {
+  border: none;              /* remove default border */
+  border-top: 1px solid #ddd; /* thin light grey line */
+  margin: 20px 0;            /* space above and below the line */
+  width: 100%;               /* full width of the container */
+
+}
