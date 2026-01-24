@@ -305,7 +305,7 @@ h6 { font-size: 0.9em; }   /* 13.5px */
 }
 
 .section:first-of-type {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 /* ================= 2-COLUMN CARD SECTIONS ================= */
@@ -331,10 +331,6 @@ h6 { font-size: 0.9em; }   /* 13.5px */
   padding: 20px; /* only the text column has padding */
   box-sizing: border-box;
   background: #fff; /* optional: white background behind text */
-
-  display: flex;            /* make this a flex container */
-  flex-direction: column;   /* stack children vertically */
-
 }
 
 /* Image column */
@@ -846,16 +842,6 @@ input[type="range"]::-ms-fill-upper {
   width: 100%;                    /* animate underline left to right */
 }
 
-/* =============== AFFILIATE DISCLOSURE TEXT =============== */
-
-.affiliate-disclosure {
-  font-size: 0.8em;           /* smaller than body text */
-  color: #6b6b6b;             /* pale grey for subtlety */
-  line-height: 1.35;          /* keeps text readable even smaller */
-  margin-top: auto;         /* pushes this div to the bottom */
-  padding-top: 20px;           /* ensures at least 10px spacing above */
-}
-
 
 /* ================= GEO-SPECIFIC NEXT STEPS ================= */
 
@@ -1057,16 +1043,36 @@ li {
 
 /* --- Logo --- */
 
+/* wrapper link */
 .affiliate-logo {
   display: inline-flex;
   align-items: center;
+  text-decoration: none;
+  max-width: 150px;
+  height: auto;
 }
 
+/* logo image */
 .affiliate-logo img {
   height: 20px;
   width: auto;
-  opacity: 0.85;
+  opacity: 0.7;
+  filter: grayscale(100%);
+  transition: opacity 0.2s ease, filter 0.2s ease;
 }
+
+/* Remove global underline effect from affiliate logo links */
+.affiliate-logo::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* subtle hover / focus affordance */
+.affiliate-logo:hover img,
+.affiliate-logo:focus-visible img {
+  opacity: 0.9;
+}
+
 
 /* --- CTA button --- */
 .affiliate-cta {
@@ -1141,15 +1147,10 @@ li {
 }
 
 .affiliate-right p {
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   font-size: 0.8em;           /* smaller than body text */
-  color: #6b6b6b;             /* pale grey for subtlety */
+  color: #737373;             /* pale grey for subtlety */
   line-height: 1.35;          /* keeps text readable even smaller */
-}
-
-.affiliate-logo {
-  max-width: 150px;
-  height: auto;
 }
 
 /* Responsive */
@@ -1159,6 +1160,17 @@ li {
     text-align: center;
   }
   .affiliate-right {
-    text-align: center;
+    text-align: left;
   }
 }
+
+/* =============== AFFILIATE DISCLOSURE TEXT =============== */
+
+.affiliate-disclosure {
+  font-size: 0.8em;           /* smaller than body text */
+  color: #737373;             /* pale grey for subtlety */
+  line-height: 1.35;          /* keeps text readable even smaller */
+  margin-top: auto;         /* pushes this div to the bottom */
+  padding-top: 20px;           /* ensures at least 10px spacing above */
+}
+
