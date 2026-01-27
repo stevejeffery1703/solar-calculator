@@ -973,17 +973,10 @@ li {
   }
 }
 
-@media (max-width: 480px) {
-  .state-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
   .state-grid a {
-    padding: 12px 10px;
+    padding: 8px 2px;
   }
 }
-
 
 /* ================= STATE BY STATE NAV SUBMENU ================= */
 
@@ -1189,4 +1182,29 @@ li {
   margin: 20px 0;            /* space above and below the line */
   width: 100%;               /* full width of the container */
 
+}
+
+/* =============== ARTICLE LIST =============== */
+.article-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.article-item {
+  margin-bottom: 1rem;
+}
+
+.article-title {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.article-description {
+  display: block;
+  margin-top: 0.25rem;
+  margin-left: 0.75rem; /* ? subtle indent */
+  font-size: 0.9em;
+  color: #666;
+  line-height: 1.4;
 }
