@@ -473,10 +473,20 @@ h6 { font-size: 0.9em; }   /* 13.5px */
   margin-top: 2px;
 }
 
-/* Wrapper for slider + value to allow mobile flex */
+/* Wrapper for slider + value to allow mobile flex - REMOVED 26 JAN
 .input-row-slider {
-  display: contents; /* acts like the children are directly in grid for desktop */
+  display: contents; 
+}*/
+
+
+/* ADDED 26 JAN 2026, IN PLEASE OF PREVIOUS RULE (SEE CHATGPT) */
+.input-row-slider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
 }
+
 
 .input-row-slider input[type="range"] {
   width: 100%;
