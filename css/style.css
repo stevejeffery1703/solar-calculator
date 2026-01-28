@@ -1218,3 +1218,12 @@ li {
   color: #666;
   line-height: 1.4;
 }
+
+/* =============== ARTICLE LIST =============== */
+.affiliate-description {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.9em;
+  color: #666;
+  line-height: 1.4;
+}

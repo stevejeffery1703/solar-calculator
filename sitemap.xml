@@ -78,4 +78,22 @@
     <priority>0.80</priority>
   </url>
 
+  <!-- Articles hub -->
+  <url>
+    <loc>https://sunwisecalculator.com/articles/</loc>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- Articles -->
+  <url>
+    <loc>https://sunwisecalculator.com/articles/how-long-do-solar-panels-last/</loc>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://sunwisecalculator.com/articles/diy-solar-panels/</loc>
+    <priority>0.70</priority>
+  </url>
+
+
 </urlset>
