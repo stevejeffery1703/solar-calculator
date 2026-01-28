@@ -1207,6 +1207,8 @@ li {
 
 .article-title {
   display: inline-block;
+  line-height: 1.25;
+  padding-bottom: 2px;
   text-decoration: none;
 }
 
