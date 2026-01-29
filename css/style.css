@@ -21,6 +21,20 @@ body, html {
   font-style: italic;
 }
 
+
+/* ================= Fix for wiggle suggested by Grok, 28 Jan 2026 ================= */
+
+html, body {
+  overflow-x: hidden;     /* ? This stops the wiggle */
+  width: 100%;
+}
+
+#map {
+  overflow: hidden;       /* Extra safety for the map */
+}
+
+/* ================= End of fix for wiggle suggested by Grok, 28 Jan 2026 ================= */
+
 /* ================= GLOBAL LINKS ================= */
 a {
   color: var(--main-color);           /* main blue (#1f4e79) */
