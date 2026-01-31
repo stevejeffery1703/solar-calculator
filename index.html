@@ -76,17 +76,20 @@
       <div class="section" id="heroSection">
     <h1>Calculate your Solar Savings in Seconds</h1>
     
-     <p>Use our free solar calculator to estimate how much you could save 
-     by installing a residential solar system. 
-     Specify your location, home size, financing preferences, and a few other details 
-     to get a personalized estimate of potential savings. 
+     <p>
+      Use our free solar calculator to estimate how much you could save 
+      by installing a residential solar system. 
+      A typical residential solar system can save you tens of thousands of dollars, 
+      and add significantly to the value of your home. 
      </p>
-     <p>A typical residential solar system can save you tens of thousands of dollars, 
-     and add significantly to the value of your home. 
-     Compare different financing options and system sizes to find what works best for you.
+     <p>
+      Specify your location, system size, financing preferences, and a few other details 
+      to get a personalized estimate of potential savings. Our calculator automatically 
+      takes account of regional differences in installation cost and solar intensity.
      </p> 
-    <p>Start by selecting your state, and enter a few other details to see how much you could save.
-    </p>
+     <p>
+      Start by selecting your state, and enter a few other details to estimate your savings.
+     </p>
        
     </div>
     <!-- closes #heroSection -->
@@ -105,7 +108,8 @@
   <span class="tooltip-icon" tabindex="0">
     <span class="tooltip-i">i</span>
     <span class="tooltip-text">
-      Select your state to estimate how much solar power you could generate.
+      Select your state to estimate how much solar power you could generate. 
+      The calculator will set the average system cost and power generation automatically.
     </span>
   </span>
 </h2>
@@ -304,7 +308,7 @@
       <span class="tooltip-icon" tabindex="0">
     <span class="tooltip-i">i</span>
     <span class="tooltip-text">
-      Smaller homes: 3-5kW<br>Medium homes: 6-8 kW<br> Larger homes: 9-12 kW
+      Smaller homes: 3-5kW<br>Medium homes: 6-8 kW<br>Larger homes: 9-12 kW<br>Average system cost varies by state
     </span>
   </span>
     </label>
@@ -319,13 +323,15 @@
     Estimated system cost:
     <span id="systemCostDisplay">$0</span>
   </div>
-
+  
 <div class="input-row" style="margin-top:8px;">
   <label for="siteEfficiencySlider">Efficiency:
   <span class="tooltip-icon" tabindex="0">
     <span class="tooltip-i">i</span>
     <span class="tooltip-text">
-      Takes account of roof angle and orientation, partial shade, and other factors. A moderately steep south-facing roof may be "Good" (+10%) or "Excellent" (+20%). A roof that is flat or not south-facing may be "Fair" (-10%) or "Poor" (-20%).
+      Use this slider to take account of roof angle and orientation, partial shade, and other factors. 
+      A moderately steep south-facing roof may be "Good" (+10%) or "Excellent" (+20%). 
+      A roof that is flat, very steep, or not south-facing may be "Fair" (-10%) or "Poor" (-20%).
     </span>
   </span>
   </label>
@@ -373,8 +379,8 @@
     <div class="input-row">
       <label for="interestRate">Annual interest rate (%):</label>
      <div class="input-row-slider">
-      <input type="range" id="interestRate" min="3" max="15" step="0.1" value="9">
-      <span class="value" id="interestRateDisplay">9.0%</span>
+      <input type="range" id="interestRate" min="3" max="15" step="0.1" value="7.5">
+      <span class="value" id="interestRateDisplay">7.5%</span>
      </div>
     </div>
 
@@ -414,7 +420,7 @@
       <span class="tooltip-icon" tabindex="0">
     <span class="tooltip-i">i</span>
     <span class="tooltip-text">
-      Future price changes are uncertain. In recent years, U.S. rates have increased by ~2–3% annually.
+      Future price changes are uncertain. In recent years, U.S. rates have increased by ~2-3% annually.
     </span>
   </span>
     </label>

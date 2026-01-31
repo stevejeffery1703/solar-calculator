@@ -4,7 +4,28 @@
 // ============================================
 
 // ---------- EDITABLE CONSTANTS ----------
-const COST_PER_KW = 3000;         // $ per kW
+
+// Average installed cost per kW by state (USD)
+// Update annually as new data becomes available
+const STATE_COST_PER_KW = {
+  AL: 2960, AR: 2470, AZ: 2070, CA: 2370, CO: 2850,
+  CT: 2770, DC: 2990, DE: 2240, FL: 2200, GA: 2450,
+  HI: 3240, ID: 2790, IA: 3090, IL: 3020, IN: 2840,
+  KS: 2830, KY: 2630, LA: 2610, MA: 3090, MD: 2660,
+  ME: 2940, MI: 3050, MN: 3250, MO: 2580, MS: 2670,
+  MT: 2650, NC: 2340, NH: 3060, NJ: 2760, NM: 2820,
+  NY: 2780, NV: 2250, OH: 2790, OK: 2370, OR: 2700,
+  PA: 2640, RI: 3040, SC: 2510, TN: 3020, TX: 2160,
+  VT: 2940, VA: 2740, WA: 2680, WV: 3100, WI: 3080,
+
+  DEFAULT: 3000
+};
+
+function getCostPerKw(stateCode) {
+  return STATE_COST_PER_KW[stateCode] ?? STATE_COST_PER_KW.DEFAULT;
+}
+
+// ---------- OTHER EDITABLE CONSTANTS ----------
 const BASE_KWH_PER_KW = 1800;     // annual kWh per kW
 const YEARS = 25;
 const PANEL_DEGRADATION = 0.5 / 100; // 0.5% annual output loss
@@ -220,7 +241,8 @@ function refreshDisplays() {
   if (homeSizeSlider && homeSizeLabel && systemCostDisplay && dailyKwhDisplay) {
     const kw = parseInt(homeSizeSlider.value, 10);
     homeSizeLabel.textContent = `${kw} kW`;
-    systemCostDisplay.textContent = `$${formatMoney(kw * COST_PER_KW)}`;
+    const costPerKw = getCostPerKw(selectedState);
+    systemCostDisplay.textContent = `$${formatMoney(kw * costPerKw)}`;
     const solarFactor = solarPotential[selectedState] || 0.30;
     const siteEfficiency = siteEfficiencySlider ? SITE_EFFICIENCY_LEVELS[parseInt(siteEfficiencySlider.value, 10)] : SITE_EFFICIENCY_LEVELS[2];
     if (siteEfficiencyDisplay) siteEfficiencyDisplay.textContent = siteEfficiency.label;
@@ -249,7 +271,8 @@ function handlePaymentTypeUI() {
 // CORE CALCULATION
 // ============================================
 function calculateNetSavings(inputs) {
-  const systemCost = inputs.systemKW * COST_PER_KW;
+  const costPerKw = getCostPerKw(selectedState);
+  const systemCost = inputs.systemKW * costPerKw;
   const solarFactor = solarPotential[selectedState] || 0.30;
   const siteEfficiency = SITE_EFFICIENCY_LEVELS[inputs.siteEfficiencyIndex];
   const annualKWh = inputs.systemKW * BASE_KWH_PER_KW * solarFactor * siteEfficiency.factor;

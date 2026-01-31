@@ -1243,3 +1243,31 @@ li {
   color: #666;
   line-height: 1.4;
 }
+
+/* =============== State price grid =============== */
+
+.state-price-grid {
+  column-width: 220px;   /* Minimum width of each column */
+  column-gap: 2rem;      /* Space between columns */
+}
+
+.price-grid-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+  border-bottom: 1px dotted #ddd;
+  break-inside: avoid;    /* Prevent item from breaking across columns */
+}
+
+.price-grid-item:hover {
+  background-color: rgba(0, 120, 255, 0.06);
+}
+
+.price-grid-state {
+  font-weight: 500;
+}
+
+.price-grid-price {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
