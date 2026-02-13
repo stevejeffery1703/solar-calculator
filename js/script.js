@@ -508,3 +508,56 @@ document.querySelectorAll('input[type="range"]').forEach(slider => {
   slider.addEventListener("input", updateSliderFill);
   updateSliderFill();
 });
+
+
+
+// ============================================
+// FETCH GOOGLE REVIEW SCORES FROM JSON FILE
+// ============================================
+
+fetch('/data/supplier-reviews.json')
+  .then(res => res.json())
+  .then(data => {
+    document.querySelectorAll('.google-rating').forEach(el => {
+      const supplierKey = el.getAttribute('data-supplier');
+      const supplier = data[supplierKey];
+      if (!supplier) return;
+
+      const rating = supplier.rating;
+      const fullStars = Math.floor(rating);
+      const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+      const emptyStars = 5 - fullStars - halfStar;
+
+      const starSVG = (type) => {
+        if(type === "full") return `<svg viewBox="0 0 20 20" fill="#f4b400"><polygon points="10,1 12.6,7.2 19,7.5 14,12 15.3,18.5 10,15 4.7,18.5 6,12 1,7.5 7.4,7.2"/></svg>`;
+        if(type === "half") {
+          // Generate unique ID for each half star
+          const gradId = 'halfGrad' + Math.floor(Math.random() * 100000);
+          return `<svg viewBox="0 0 20 20">
+                    <defs>
+                      <linearGradient id="${gradId}">
+                        <stop offset="50%" stop-color="#f4b400"/>
+                        <stop offset="50%" stop-color="#ccc"/>
+                      </linearGradient>
+                    </defs>
+                    <polygon points="10,1 12.6,7.2 19,7.5 14,12 15.3,18.5 10,15 4.7,18.5 6,12 1,7.5 7.4,7.2" fill="url(#${gradId})"/>
+                  </svg>`;
+        }
+        return `<svg viewBox="0 0 20 20"><polygon points="10,1 12.6,7.2 19,7.5 14,12 15.3,18.5 10,15 4.7,18.5 6,12 1,7.5 7.4,7.2" fill="#ccc"/></svg>`;
+      };
+
+      let starsHTML = "";
+      for(let i=0; i<fullStars; i++) starsHTML += starSVG("full");
+      if(halfStar) starsHTML += starSVG("half");
+      for(let i=0; i<emptyStars; i++) starsHTML += starSVG("empty");
+
+      // Build single-line text
+      const text = `<span class="rating-strong">${rating.toFixed(1)}/5</span> from <span class="rating-strong">${supplier.reviewCount} Google reviews</span> (${supplier.lastUpdated})`;
+
+      el.innerHTML = `
+        <div class="rating-stars">${starsHTML}</div>
+        <div class="rating-text">${text}</div>
+      `;
+    });
+  })
+  .catch(err => console.error("Failed to load supplier reviews:", err));

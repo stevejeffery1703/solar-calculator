@@ -1271,3 +1271,48 @@ li {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+
+
+/* =============== Google rating stars and other details =============== */
+/* Container for the rating badge */
+.google-rating {
+  display: flex;                     /* align stars and text on one line */
+  align-items: center;               /* vertical alignment */
+  justify-content: center;           /* center under logo */
+  font-size: 0.9em;           /* smaller than body text */
+  color: #737373;             /* pale grey for subtlety */
+  flex-wrap: nowrap;                 /* keep everything on one line */
+}
+
+.rating-strong {
+  font-weight: 800;
+  color: var(--main-color);
+}
+
+/* Stars container */
+.rating-stars {
+  display: flex;
+  align-items: center;
+  margin-right: 6px;                 /* space between stars and text */
+}
+
+/* Individual star sizing */
+.rating-stars svg {
+  width: 16px;                        /* adjust size as needed */
+  height: 16px;                       /* do NOT use "auto" */
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+/* Inline text next to stars */
+.rating-text {
+  white-space: nowrap;               /* keep everything on one line */
+}
+
+/* Optional: smaller on mobile */
+@media (max-width: 640px) {
+  .rating-stars svg {
+    width: 14px;
+    height: 14px;
+  }
+}

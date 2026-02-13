@@ -21,6 +21,12 @@
     <loc>https://sunwisecalculator.com/contact/</loc>
     <priority>0.60</priority>
   </url>
+  
+  <url>
+    <loc>https://sunwisecalculator.com/partners/</loc>
+    <priority>0.60</priority>
+  </url>
+
 
   <url>
     <loc>https://sunwisecalculator.com/privacy-and-legal</loc>
