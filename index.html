@@ -90,8 +90,7 @@
      </p> 
      <p>
       Start by selecting your state, and enter a few other details to estimate your savings.
-     </p>
-       
+     </p>  
     </div>
     <!-- closes #heroSection -->
   
@@ -299,7 +298,7 @@
   <span class="tooltip-icon" tabindex="0">
     <span class="tooltip-i">i</span>
     <span class="tooltip-text">
-      Select the size of your system. Model assumes 0.5% annual panel degradation.
+      Select the size of your system. Calculator assumes 0.5% annual panel degradation.
     </span>
   </span>
 </h2>
@@ -319,8 +318,33 @@
     </div>  
   </div>
 
+
+<!-- New Cost per kW slider -->
+<div class="input-row" style="margin-top:8px;">
+  <label for="costPerKwSlider">Cost per kW ($):
+    <span class="tooltip-icon" tabindex="0">
+      <span class="tooltip-i">i</span>
+      <span class="tooltip-text">
+        Adjust to match the anticipated cost per kW. Default value is the average cost for the selected state.
+      </span>
+    </span>
+  </label>
+  <div class="input-row-slider">
+    <input type="range" id="costPerKwSlider" min="1500" max="5000" step="10">
+    <span class="value" id="costPerKwLabel">$0</span>
+  </div>
+</div>
+<!-- End of New Cost per kW slider -->
+
+
+  <div style="margin-top:10px;">
+   (Average cost in <span class="currentSelectedState"></span>: <span class="averagecostperkwinselectedstate"></span> per kW)
+  </div>
+
+
+
   
-  <div style="margin-top:8px;">
+  <div style="margin-top:10px; font-weight: 500;">
     Estimated system cost:
     <span id="systemCostDisplay">$0</span>
   </div>
@@ -343,7 +367,7 @@
 </div>
 
 
-  <div style="margin-top:6px;">
+  <div style="margin-top:10px; font-weight: 500;">
     Estimated average daily generation:
     <span id="dailyKwhDisplay">0 kWh/day</span>
   </div>
@@ -360,12 +384,12 @@
   </h2>
 
 
-  <label>
+  <label style="font-weight: 500;">
     <input type="radio" name="paymentType" value="financing" checked>
     Pay monthly
   </label>
 
-  <label style="margin-left:12px;">
+  <label style="margin-left:12px; font-weight: 500;">
     <input type="radio" name="paymentType" value="upfront">
     Pay in full
   </label>

@@ -25,6 +25,16 @@ function getCostPerKw(stateCode) {
   return STATE_COST_PER_KW[stateCode] ?? STATE_COST_PER_KW.DEFAULT;
 }
 
+// ============================================
+// STEP 4: Dynamic cost per kW (slider-aware)
+// ============================================
+function getEffectiveCostPerKw() {
+  if (costPerKwSlider) {
+    return parseFloat(costPerKwSlider.value) || getCostPerKw(selectedState);
+  }
+  return getCostPerKw(selectedState);
+}
+
 // ---------- OTHER EDITABLE CONSTANTS ----------
 const BASE_KWH_PER_KW = 1800;     // annual kWh per kW
 const YEARS = 25;
@@ -135,6 +145,9 @@ const annualIncreaseDisplay = document.getElementById("annualIncreaseDisplay");
 
 const singleIncentiveInput = document.getElementById("singleIncentive");
 
+const costPerKwSlider = document.getElementById("costPerKwSlider");
+const costPerKwLabel = document.getElementById("costPerKwLabel");
+
 let netYearlyChart;
 let netCumulativeChart;
 let electricityCostChart;
@@ -157,6 +170,10 @@ document.body.appendChild(tooltip);
 // ============================================
 function formatMoney(x) {
   return x.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function formatMoneyRounded(x) {
+  return Math.round(x).toLocaleString();
 }
 
 // ============================================
@@ -187,6 +204,20 @@ function updateNextStepsForState(stateCode) {
   if (stateNameEl) {
     stateNameEl.textContent = STATE_NAMES[stateCode] || stateCode;
   }
+  
+  
+  //  New: update all elements with the class "currentSelectedState"
+  document.querySelectorAll(".currentSelectedState").forEach(el => {
+    el.textContent = STATE_NAMES[stateCode] || stateCode;
+  });
+
+
+  // Update all elements with the class "averagecostperkwinselectedstate"
+  const costPerKw = getCostPerKw(stateCode); // get the default cost for this state
+  document.querySelectorAll(".averagecostperkwinselectedstate").forEach(el => {
+    el.textContent = `$${formatMoneyRounded(costPerKw)}`;
+  });
+  
 }
 
 // ============================================
@@ -194,13 +225,26 @@ function updateNextStepsForState(stateCode) {
 // ============================================
 function setSelectedState(stateCode) {
   selectedState = stateCode;
+
+  // Update map colors
   statePaths.forEach(p => {
     const tier = getSolarTier(solarPotential[p.id]);
     p.style.fill = (p.id === stateCode) ? SELECTED_COLOR : tier.color;
   });
+
+  // Update dropdown if necessary
   if (stateSelect && stateSelect.value !== stateCode) {
     stateSelect.value = stateCode;
   }
+
+  // ====== NEW: Update cost-per-kW slider to state's default ======
+  if (costPerKwSlider) {
+    costPerKwSlider.value = getCostPerKw(stateCode);
+    updateCostPerKwLabel(); // update the label to match
+   // ===== NEW: update the fill immediately =====
+  costPerKwSlider.dispatchEvent(new Event('input'));
+  }
+
   refreshDisplays();
   updateAndRender();
   updateNextStepsForState(stateCode);
@@ -241,8 +285,8 @@ function refreshDisplays() {
   if (homeSizeSlider && homeSizeLabel && systemCostDisplay && dailyKwhDisplay) {
     const kw = parseInt(homeSizeSlider.value, 10);
     homeSizeLabel.textContent = `${kw} kW`;
-    const costPerKw = getCostPerKw(selectedState);
-    systemCostDisplay.textContent = `$${formatMoney(kw * costPerKw)}`;
+    const costPerKw = getEffectiveCostPerKw();
+    systemCostDisplay.textContent = `$${formatMoneyRounded(kw * costPerKw)}`;
     const solarFactor = solarPotential[selectedState] || 0.30;
     const siteEfficiency = siteEfficiencySlider ? SITE_EFFICIENCY_LEVELS[parseInt(siteEfficiencySlider.value, 10)] : SITE_EFFICIENCY_LEVELS[2];
     if (siteEfficiencyDisplay) siteEfficiencyDisplay.textContent = siteEfficiency.label;
@@ -271,7 +315,7 @@ function handlePaymentTypeUI() {
 // CORE CALCULATION
 // ============================================
 function calculateNetSavings(inputs) {
-  const costPerKw = getCostPerKw(selectedState);
+  const costPerKw = getEffectiveCostPerKw();
   const systemCost = inputs.systemKW * costPerKw;
   const solarFactor = solarPotential[selectedState] || 0.30;
   const siteEfficiency = SITE_EFFICIENCY_LEVELS[inputs.siteEfficiencyIndex];
@@ -456,6 +500,24 @@ function updateAndRender() {
 if (homeSizeSlider) homeSizeSlider.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
 if (siteEfficiencySlider) siteEfficiencySlider.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
 
+// -------------------------
+// Cost per kW slider handling
+// -------------------------
+function updateCostPerKwLabel() {
+  if (costPerKwSlider && costPerKwLabel) {
+    costPerKwLabel.textContent = `$${formatMoneyRounded(Number(costPerKwSlider.value || getCostPerKw(selectedState)))}`;
+  }
+}
+
+// Update label on slider input
+if (costPerKwSlider) {
+  costPerKwSlider.addEventListener("input", () => {
+    updateCostPerKwLabel();
+    updateAndRender();
+  });
+}
+
+
 if (interestRateInput) interestRateInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
 if (repaymentYearsInput) repaymentYearsInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
 if (currentKwhCostInput) currentKwhCostInput.addEventListener("input", () => { refreshDisplays(); updateAndRender(); });
@@ -483,12 +545,10 @@ window.addEventListener("resize", () => {
 // INITIALISE (SAFE)
 // ============================================
 document.addEventListener("DOMContentLoaded", () => {
-  refreshDisplays();
-  handlePaymentTypeUI();
-  setSelectedState(selectedState);
-  updateAndRender();
-  renderElectricityCostChart();
-  renderSolarCostChart();
+  handlePaymentTypeUI();          // show/hide financing inputs
+  setSelectedState(selectedState); // sets map, dropdown, slider, label, refreshes displays
+  renderElectricityCostChart();    // context chart
+  renderSolarCostChart();          // context chart
 });
 
 // ============================================
