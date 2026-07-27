@@ -24,18 +24,30 @@ body, html {
 }
 
 
-/* ================= Fix for wiggle suggested by Grok, 28 Jan 2026 ================= */
+/* ================= BOX MODEL / MOBILE OVERFLOW ================= */
+/* Root causes of the horizontal "wiggle" on mobile, fixed rather than clipped:
+   1. border-box so padding never adds to an element's declared width;
+   2. media elements never exceed their container;
+   overflow-x:hidden is kept only as a belt-and-braces safety net - with the
+   causes fixed it no longer has anything to crop. (Replaces the earlier
+   Grok-suggested overflow-x:hidden-only patch, which hid the wiggle by
+   clipping content off the right edge.) */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img, svg, video, canvas, iframe {
+  max-width: 100%;
+}
 
 html, body {
-  overflow-x: hidden;     /* ? This stops the wiggle */
+  overflow-x: hidden;     /* safety net only; see note above */
   width: 100%;
 }
 
 #map {
-  overflow: hidden;       /* Extra safety for the map */
+  overflow: hidden;       /* keeps the SVG map within its rounded corners */
 }
-
-/* ================= End of fix for wiggle suggested by Grok, 28 Jan 2026 ================= */
 
 /* ================= GLOBAL LINKS ================= */
 a {
@@ -173,7 +185,7 @@ h6 { font-size: 0.9em; }   /* 13.5px */
   line-height: 1.4;
   white-space: normal;
   width: max-content;
-  max-width: 220px;
+  max-width: min(220px, 84vw); /* never wider than the viewport on small screens */
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease;
@@ -344,6 +356,10 @@ h6 { font-size: 0.9em; }   /* 13.5px */
 /* Text column */
 .card-text {
   flex: 1 1 50%; /* half width on desktop */
+  min-width: 0;  /* allow the column to shrink below its content's intrinsic
+                    width - without this the flex default (min-width:auto) let
+                    the non-wrapping rating badges push the card wider than the
+                    viewport on mobile */
   padding: 20px; /* only the text column has padding */
   box-sizing: border-box;
   background: #fff; /* optional: white background behind text */
@@ -458,6 +474,24 @@ h6 { font-size: 0.9em; }   /* 13.5px */
   max-width: 100%;
   display: block;
   margin: 0 auto;
+}
+
+/* Floating label shown while hovering the map. Created in script.js; positioned
+   (and clamped to the viewport) there too, so it never runs off the edge. */
+#tooltip {
+  position: fixed;
+  display: none;
+  z-index: 1200;
+  pointer-events: none;
+  background: var(--main-color);
+  color: #fff;
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1;
+  padding: 5px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* ================= INPUT ROWS ================= */
@@ -997,7 +1031,6 @@ li {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-}
 
   .state-grid a {
     padding: 8px 2px;
@@ -1231,7 +1264,7 @@ li {
 .article-description {
   display: block;
   margin-top: 0.25rem;
-  margin-left: 0.75rem; /* ? subtle indent */
+  margin-left: 0.75rem; /* subtle indent */
   font-size: 0.9em;
   color: #666;
   line-height: 1.4;
@@ -1316,5 +1349,15 @@ li {
   .rating-stars svg {
     width: 14px;
     height: 14px;
+  }
+
+  /* On narrow screens the one-line badge is wider than the column and was
+     forcing horizontal overflow. Let it wrap onto a second line instead. */
+  .google-rating {
+    flex-wrap: wrap;
+  }
+
+  .rating-text {
+    white-space: normal;
   }
 }
