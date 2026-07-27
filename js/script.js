@@ -1,5 +1,5 @@
 // ============================================
-// Solar calculator � FULL working version
+// Solar calculator - FULL working version
 // Map + finance + charts (25 years)
 // ============================================
 
@@ -280,13 +280,23 @@ statePaths.forEach(path => {
 
   path.addEventListener("mouseenter", () => {
     if (path.id !== selectedState) path.style.fill = HOVER_COLOR;
-    tooltip.textContent = path.id;
+    tooltip.textContent = STATE_NAMES[path.id] || path.id;
     tooltip.style.display = "block";
   });
 
   path.addEventListener("mousemove", e => {
-    tooltip.style.left = e.pageX + 10 + "px";
-    tooltip.style.top = e.pageY + 10 + "px";
+    // #tooltip is position:fixed, so use viewport coordinates and keep the whole
+    // label on-screen - offset to the cursor's left/top near the right/bottom edge
+    // so long names (e.g. "North Carolina") never run off the edge on mobile.
+    const pad = 8;
+    const tw = tooltip.offsetWidth;
+    const th = tooltip.offsetHeight;
+    let x = e.clientX + 12;
+    let y = e.clientY + 12;
+    if (x + tw + pad > window.innerWidth) x = e.clientX - tw - 12;
+    if (y + th + pad > window.innerHeight) y = e.clientY - th - 12;
+    tooltip.style.left = Math.max(pad, x) + "px";
+    tooltip.style.top = Math.max(pad, y) + "px";
   });
 
   path.addEventListener("mouseleave", () => {
@@ -425,7 +435,7 @@ function renderResults(rows) {
 }
 
 // ============================================
-// RENDER CONTEXT CHARTS (STATIC) � FIXED Y-AXIS
+// RENDER CONTEXT CHARTS (STATIC) - FIXED Y-AXIS
 // ============================================
 
 function renderElectricityCostChart() {
@@ -453,8 +463,8 @@ function renderElectricityCostChart() {
       plugins: { legend: { display: false } },
       scales: {
         y: {
-          type: 'linear',     // ? ensure numeric scale
-          min: 0,             // ? force axis to start at 0
+          type: 'linear',     // ensure numeric scale
+          min: 0,             // force axis to start at 0
           ticks: { callback: v => `$${v.toFixed(2)}` }
         },
         x: {
@@ -489,8 +499,8 @@ function renderSolarCostChart() {
       plugins: { legend: { display: false } },
       scales: {
         y: {
-          type: 'linear',     // ? ensure numeric scale
-          min: 0,             // ? force axis to start at 0
+          type: 'linear',     // ensure numeric scale
+          min: 0,             // force axis to start at 0
           ticks: { callback: v => `$${v.toLocaleString()}` }
         },
         x: {
