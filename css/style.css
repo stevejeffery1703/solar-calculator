@@ -4,6 +4,8 @@
   --accent-color: #d97706;    /* Solar amber */
   --text-color: #2f2f2f;
   --border-color: #e5e7eb;
+  --positive-color: #2e7d32;  /* Net gain (charts) */
+  --negative-color: #c62828;  /* Net loss (charts) */
 }
 
 body, html {
@@ -101,7 +103,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Desktop sizes */
-h1 { font-size: 2.0em; }   /
+h1 { font-size: 2.0em; }   /* 30px */
 h2 { font-size: 1.7em; }   /* 25.5px */
 h3 { font-size: 1.4em; }   /* 21px */
 h4 { font-size: 1.2em; }   /* 18px */
@@ -664,7 +666,7 @@ input[type="range"] {
   -webkit-appearance: none;
   width: 100%;
   height: 6px;
-  background: #e5e7eb;
+  background: var(--border-color);
   border-radius: 3px;
   outline: none;
   margin: 0;
@@ -706,7 +708,7 @@ input[type="range"]::-moz-range-thumb:hover {
 input[type="range"]::-moz-range-track {
   height: 6px;
   border-radius: 3px;
-  background: #e5e7eb;
+  background: var(--border-color);
 }
 
 input[type="range"]::-moz-range-progress {
@@ -731,7 +733,7 @@ input[type="range"]::-ms-fill-lower {
 }
 
 input[type="range"]::-ms-fill-upper {
-  background: #e5e7eb;
+  background: var(--border-color);
   border-radius: 3px;
 }
 
@@ -1010,7 +1012,7 @@ li {
   gap: 12px;
   margin: 0 0 24px 0;
   padding-bottom: 12px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .state-subnav a {

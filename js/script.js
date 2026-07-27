@@ -1,5 +1,5 @@
 // ============================================
-// Solar calculator — FULL working version
+// Solar calculator ï¿½ FULL working version
 // Map + finance + charts (25 years)
 // ============================================
 
@@ -168,12 +168,35 @@ document.body.appendChild(tooltip);
 // ============================================
 // Helpers
 // ============================================
+function clamp(x, min, max) {
+  if (!Number.isFinite(x)) return min;
+  return Math.min(Math.max(x, min), max);
+}
+
+// Charts read their colours from the CSS custom properties so the palette lives
+// in exactly one place. Previously they hardcoded #1565c0 / #f9a825, which were
+// near-misses for the site's own blue and amber and looked like a mistake.
+function cssVar(name, fallback) {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return v || fallback;
+}
+
+// Intl places the sign correctly (-$1,234.56 rather than $-1,234.56) and the
+// locale is pinned to en-US because every figure on the site is in USD - the
+// visitor's own locale would otherwise format 1.234,56 under a $ sign.
+const MONEY = new Intl.NumberFormat("en-US", {
+  style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2
+});
+const MONEY_ROUNDED = new Intl.NumberFormat("en-US", {
+  style: "currency", currency: "USD", maximumFractionDigits: 0
+});
+
 function formatMoney(x) {
-  return x.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return MONEY.format(Number.isFinite(x) ? x : 0);
 }
 
 function formatMoneyRounded(x) {
-  return Math.round(x).toLocaleString();
+  return MONEY_ROUNDED.format(Number.isFinite(x) ? x : 0);
 }
 
 // ============================================
@@ -215,7 +238,7 @@ function updateNextStepsForState(stateCode) {
   // Update all elements with the class "averagecostperkwinselectedstate"
   const costPerKw = getCostPerKw(stateCode); // get the default cost for this state
   document.querySelectorAll(".averagecostperkwinselectedstate").forEach(el => {
-    el.textContent = `$${formatMoneyRounded(costPerKw)}`;
+    el.textContent = formatMoneyRounded(costPerKw);
   });
   
 }
@@ -286,7 +309,7 @@ function refreshDisplays() {
     const kw = parseInt(homeSizeSlider.value, 10);
     homeSizeLabel.textContent = `${kw} kW`;
     const costPerKw = getEffectiveCostPerKw();
-    systemCostDisplay.textContent = `$${formatMoneyRounded(kw * costPerKw)}`;
+    systemCostDisplay.textContent = formatMoneyRounded(kw * costPerKw);
     const solarFactor = solarPotential[selectedState] || 0.30;
     const siteEfficiency = siteEfficiencySlider ? SITE_EFFICIENCY_LEVELS[parseInt(siteEfficiencySlider.value, 10)] : SITE_EFFICIENCY_LEVELS[2];
     if (siteEfficiencyDisplay) siteEfficiencyDisplay.textContent = siteEfficiency.label;
@@ -321,9 +344,15 @@ function calculateNetSavings(inputs) {
   const siteEfficiency = SITE_EFFICIENCY_LEVELS[inputs.siteEfficiencyIndex];
   const annualKWh = inputs.systemKW * BASE_KWH_PER_KW * solarFactor * siteEfficiency.factor;
 
+  // Both are free-text number fields, so a stray keystroke can otherwise push the
+  // total to nonsense (a $999,999,999 downpayment produced -$999,926,318 in savings).
+  // Neither value is meaningful above the cost of the system itself.
+  const downpayment = clamp(inputs.downpayment, 0, systemCost);
+  const incentive = clamp(inputs.incentive, 0, systemCost);
+
   let monthlyPayment = 0;
   if (inputs.paymentType === "financing") {
-    const principal = Math.max(0, systemCost - inputs.downpayment);
+    const principal = Math.max(0, systemCost - downpayment);
     const r = (inputs.interestRate / 100) / 12;
     const n = inputs.repaymentYears * 12;
     monthlyPayment = r === 0 ? principal / n : (principal * r) / (1 - Math.pow(1 + r, -n));
@@ -336,14 +365,14 @@ function calculateNetSavings(inputs) {
     let payment = 0;
     if (inputs.paymentType === "upfront" && y === 1) payment = systemCost;
     if (inputs.paymentType === "financing") {
-      if (y === 1) payment += inputs.downpayment;
+      if (y === 1) payment += downpayment;
       if (y <= inputs.repaymentYears) payment += monthlyPayment * 12;
     }
     const price = inputs.currentKwhCost * Math.pow(1 + inputs.annualIncrease / 100, y - 1);
     const degradedAnnualKWh = annualKWh * Math.pow(1 - PANEL_DEGRADATION, y - 1);
     const value = degradedAnnualKWh * price;
-    const incentive = (y === 1) ? inputs.incentive : 0;
-    const net = value - payment + incentive;
+    const yearIncentive = (y === 1) ? incentive : 0;
+    const net = value - payment + yearIncentive;
     cumulative += net;
     rows.push({ year: y, net, cumulative });
   }
@@ -367,7 +396,7 @@ function renderResults(rows) {
   const cumVals = rows.map(r => r.cumulative);
 
   const totalSavingsDisplay = document.getElementById("totalSavingsDisplay");
-  if (totalSavingsDisplay) totalSavingsDisplay.textContent = `$${formatMoney(cumVals[cumVals.length - 1] || 0)}`;
+  if (totalSavingsDisplay) totalSavingsDisplay.textContent = formatMoney(cumVals[cumVals.length - 1] || 0);
 
   if (netYearlyChart) netYearlyChart.destroy();
   if (netCumulativeChart) netCumulativeChart.destroy();
@@ -384,19 +413,19 @@ function renderResults(rows) {
 
   netYearlyChart = new Chart(netYearlyCtx, {
     type: "bar",
-    data: { labels, datasets: [{ data: netVals, backgroundColor: netVals.map(v => v >= 0 ? "#4caf50" : "#f44336") }] },
+    data: { labels, datasets: [{ data: netVals, backgroundColor: netVals.map(v => v >= 0 ? cssVar("--positive-color", "#2e7d32") : cssVar("--negative-color", "#c62828")) }] },
     options: baseOptions
   });
 
   netCumulativeChart = new Chart(netCumulativeCtx, {
     type: "line",
-    data: { labels, datasets: [{ data: cumVals, borderColor: "#1565c0", borderWidth: 2, tension: 0.2, pointRadius: 3, fill: false }] },
+    data: { labels, datasets: [{ data: cumVals, borderColor: cssVar("--main-color", "#1f4e79"), borderWidth: 2, tension: 0.2, pointRadius: 3, fill: false }] },
     options: baseOptions
   });
 }
 
 // ============================================
-// RENDER CONTEXT CHARTS (STATIC) — FIXED Y-AXIS
+// RENDER CONTEXT CHARTS (STATIC) ï¿½ FIXED Y-AXIS
 // ============================================
 
 function renderElectricityCostChart() {
@@ -411,7 +440,7 @@ function renderElectricityCostChart() {
       labels: electricityCostData.years,
       datasets: [{
         data: electricityCostData.costPerKWh,
-        borderColor: "#1565c0",
+        borderColor: cssVar("--main-color", "#1f4e79"),
         borderWidth: 2,
         tension: 0.2,
         pointRadius: 3,
@@ -447,7 +476,7 @@ function renderSolarCostChart() {
       labels: solarCostData.years,
       datasets: [{
         data: solarCostData.costPerKW,
-        borderColor: "#f9a825",
+        borderColor: cssVar("--accent-color", "#d97706"),
         borderWidth: 2,
         tension: 0.2,
         pointRadius: 3,
@@ -505,7 +534,7 @@ if (siteEfficiencySlider) siteEfficiencySlider.addEventListener("input", () => {
 // -------------------------
 function updateCostPerKwLabel() {
   if (costPerKwSlider && costPerKwLabel) {
-    costPerKwLabel.textContent = `$${formatMoneyRounded(Number(costPerKwSlider.value || getCostPerKw(selectedState)))}`;
+    costPerKwLabel.textContent = formatMoneyRounded(Number(costPerKwSlider.value || getCostPerKw(selectedState)));
   }
 }
 
@@ -525,6 +554,30 @@ if (annualIncreaseInput) annualIncreaseInput.addEventListener("input", () => { r
 
 if (downpaymentInput) downpaymentInput.addEventListener("input", updateAndRender);
 if (singleIncentiveInput) singleIncentiveInput.addEventListener("input", updateAndRender);
+
+// The maths clamps these two anyway, but clamping silently would leave the field
+// showing a number that is not the one being used. Snap the visible value on
+// commit (blur or Enter) so what is on screen matches what was calculated.
+function currentSystemCost() {
+  if (!homeSizeSlider) return 0;
+  return parseInt(homeSizeSlider.value, 10) * getEffectiveCostPerKw();
+}
+
+function snapOnCommit(input) {
+  if (!input) return;
+  input.addEventListener("change", () => {
+    if (input.value === "") return;
+    const entered = parseFloat(input.value);
+    const clamped = clamp(entered, 0, currentSystemCost());
+    if (entered !== clamped) {
+      input.value = Math.round(clamped);
+      updateAndRender();
+    }
+  });
+}
+
+snapOnCommit(downpaymentInput);
+snapOnCommit(singleIncentiveInput);
 
 if (paymentTypeRadios) paymentTypeRadios.forEach(r => r.addEventListener("change", () => {
   handlePaymentTypeUI();
@@ -562,7 +615,7 @@ document.querySelectorAll('input[type="range"]').forEach(slider => {
     const percent = ((val - min) / (max - min)) * 100;
 
     slider.style.background =
-      `linear-gradient(to right, var(--accent-color) 0%, var(--accent-color) ${percent}%, #e5e7eb ${percent}%, #e5e7eb 100%)`;
+      `linear-gradient(to right, var(--accent-color) 0%, var(--accent-color) ${percent}%, var(--border-color) ${percent}%, var(--border-color) 100%)`;
   }
 
   slider.addEventListener("input", updateSliderFill);
