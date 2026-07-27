@@ -635,7 +635,9 @@ document.querySelectorAll('input[type="range"]').forEach(slider => {
 
 
 // ============================================
-// FETCH GOOGLE REVIEW SCORES FROM JSON FILE
+// FETCH SUPPLIER REVIEW SCORES FROM JSON FILE
+// Each supplier names its own source (Google, Trustpilot, Shopper Approved,
+// Reviews.io ...) so the badge is truthful rather than always saying "Google".
 // ============================================
 
 fetch('/data/supplier-reviews.json')
@@ -674,8 +676,16 @@ fetch('/data/supplier-reviews.json')
       if(halfStar) starsHTML += starSVG("half");
       for(let i=0; i<emptyStars; i++) starsHTML += starSVG("empty");
 
-      // Build single-line text
-      const text = `<span class="rating-strong">${rating.toFixed(1)}/5</span> from <span class="rating-strong">${supplier.reviewCount} Google reviews</span> (${supplier.lastUpdated})`;
+      // Source is named per supplier (and linked to its review page so the
+      // claim is verifiable). Falls back to a plain label if no URL is set.
+      const source = supplier.source || "Google";
+      const sourceHtml = supplier.sourceUrl
+        ? `<a class="rating-source" href="${supplier.sourceUrl}" target="_blank" rel="nofollow noopener noreferrer">${source}</a>`
+        : source;
+
+      // Build single-line text (count pinned to en-US so it reads 1,165 not 1.165)
+      const count = Number(supplier.reviewCount).toLocaleString("en-US");
+      const text = `<span class="rating-strong">${rating.toFixed(1)}/5</span> from <span class="rating-strong">${count}</span> ${sourceHtml} reviews (${supplier.lastUpdated})`;
 
       el.innerHTML = `
         <div class="rating-stars">${starsHTML}</div>

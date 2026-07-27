@@ -2,31 +2,42 @@
   "santansolar": {
     "name": "Santan Solar",
     "rating": 4.7,
-    "reviewCount": 458,
-    "lastUpdated": "Apr 2026"
-  },
-  "energysage": {
-    "name": "EnergySage",
-    "rating": 4.8,
-    "reviewCount": 2300,
-    "lastUpdated": "Feb 2026"
+    "reviewCount": 553,
+    "source": "Google",
+    "sourceUrl": "https://www.google.com/search?q=santan+solar+reviews",
+    "lastUpdated": "Jul 2026"
   },
   "a1solarstore": {
     "name": "A1 Solar Store",
-    "rating": 4.5,
-    "reviewCount": 152,
-    "lastUpdated": "Apr 2026"
+    "rating": 4.7,
+    "reviewCount": 511,
+    "source": "Shopper Approved",
+    "sourceUrl": "https://www.shopperapproved.com/reviews/a1solarstore.com",
+    "lastUpdated": "Jul 2026"
   },
   "shopsolarkits": {
     "name": "Shop Solar",
     "rating": 4.5,
-    "reviewCount": 1032,
-    "lastUpdated": "Apr 2026"
+    "reviewCount": 1165,
+    "source": "Trustpilot",
+    "sourceUrl": "https://www.trustpilot.com/review/shopsolarkits.com",
+    "lastUpdated": "Jul 2026"
   },
   "gosun": {
     "name": "GoSun",
-    "rating": 4.3,
-    "reviewCount": 87,
-    "lastUpdated": "Apr 2026"
+    "rating": 4.2,
+    "reviewCount": 186,
+    "source": "Trustpilot",
+    "sourceUrl": "https://www.trustpilot.com/review/www.gosun.co",
+    "lastUpdated": "Jul 2026"
+  },
+  "energysage": {
+    "name": "EnergySage",
+    "rating": 4.7,
+    "reviewCount": 736,
+    "source": "Reviews.io",
+    "sourceUrl": "https://www.reviews.io/company-reviews/store/energy-sage",
+    "lastUpdated": "Jul 2026",
+    "_note": "Not currently displayed on any page - no data-supplier=\"energysage\" element exists. Kept here ready to use."
   }
 }

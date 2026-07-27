@@ -1324,6 +1324,22 @@ li {
   color: var(--main-color);
 }
 
+/* Named, clickable review source inside a rating badge (Google / Trustpilot /
+   Shopper Approved ...). Inherits the muted badge colour rather than the loud
+   global link blue, and drops the sliding-underline pseudo-element. */
+.rating-source {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.rating-source:hover,
+.rating-source:focus {
+  color: var(--accent-color);
+}
+.rating-source::after {
+  display: none;
+}
+
 /* Stars container */
 .rating-stars {
   display: flex;
