@@ -95,8 +95,8 @@
       </div>
 
       <nav class="main-nav">
-        <button class="nav-toggle" aria-label="Toggle menu">☰</button>
-        <ul class="nav-links">
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">☰</button>
+        <ul class="nav-links" id="primary-nav">
           <li><a href="/">Home</a></li>
           <li><a href="/plan-your-solar-installation/">Plan Your Solar Installation</a></li>
           <li><a href="/solar-by-state/">Solar By State</a></li>
@@ -229,7 +229,7 @@
     <ul>
       <li>Opt out of marketing communications by following unsubscribe instructions included in emails.</li>
       <li>Disable cookies, local storage, or other tracking technologies in your browser.</li>
-      <li>Request deletion of any personal data voluntarily submitted via forms by contacting SunWise at <a href="mailto:contact@sunwise.com">contact@sunwise.com</a>.</li>
+      <li>Request deletion of any personal data voluntarily submitted via forms by contacting SunWise at <a href="mailto:contact@sunwisecalculator.com">contact@sunwisecalculator.com</a>.</li>
     </ul>
   </li>
 
@@ -358,6 +358,8 @@
 
 
 
+</div>
+
   <!-- ================= FOOTER ================= -->
   <footer class="site-footer">
     <div class="container footer-container">
@@ -392,7 +394,8 @@
     const navToggle = document.querySelector(".nav-toggle");
     const navLinks = document.querySelector(".nav-links");
     navToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("nav-open");
+      const navOpen = navLinks.classList.toggle("nav-open");
+    navToggle.setAttribute("aria-expanded", navOpen ? "true" : "false");
     });
   </script>
 </body>

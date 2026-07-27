@@ -101,8 +101,8 @@
       </div>
 
       <nav class="main-nav">
-        <button class="nav-toggle" aria-label="Toggle menu">☰</button>
-        <ul class="nav-links">
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">☰</button>
+        <ul class="nav-links" id="primary-nav">
           <li><a href="/">Home</a></li>
           <li><a href="/plan-your-solar-installation/">Plan Your Solar Installation</a></li>
           <li><a href="/solar-by-state/">Solar By State</a></li>
@@ -281,7 +281,8 @@
     const navToggle = document.querySelector(".nav-toggle");
     const navLinks = document.querySelector(".nav-links");
     navToggle.addEventListener("click", () => {
-      navLinks.classList.toggle("nav-open");
+      const navOpen = navLinks.classList.toggle("nav-open");
+    navToggle.setAttribute("aria-expanded", navOpen ? "true" : "false");
     });
   </script>
 </body>
