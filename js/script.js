@@ -643,7 +643,7 @@ document.querySelectorAll('input[type="range"]').forEach(slider => {
 fetch('/data/supplier-reviews.json')
   .then(res => res.json())
   .then(data => {
-    document.querySelectorAll('.google-rating').forEach(el => {
+    document.querySelectorAll('.supplier-rating').forEach(el => {
       const supplierKey = el.getAttribute('data-supplier');
       const supplier = data[supplierKey];
       if (!supplier) return;

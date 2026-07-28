@@ -1310,7 +1310,7 @@ li {
 
 /* =============== Google rating stars and other details =============== */
 /* Container for the rating badge */
-.google-rating {
+.supplier-rating {
   display: flex;                     /* align stars and text on one line */
   align-items: center;               /* vertical alignment */
   justify-content: center;           /* center under logo */
@@ -1369,7 +1369,7 @@ li {
 
   /* On narrow screens the one-line badge is wider than the column and was
      forcing horizontal overflow. Let it wrap onto a second line instead. */
-  .google-rating {
+  .supplier-rating {
     flex-wrap: wrap;
   }
 
