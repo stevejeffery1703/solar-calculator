@@ -173,7 +173,7 @@ function clamp(x, min, max) {
   return Math.min(Math.max(x, min), max);
 }
 
-// Charts read their colours from the CSS custom properties so the palette lives
+// Charts read their colors from the CSS custom properties so the palette lives
 // in exactly one place. Previously they hardcoded #1565c0 / #f9a825, which were
 // near-misses for the site's own blue and amber and looked like a mistake.
 function cssVar(name, fallback) {
@@ -244,7 +244,7 @@ function updateNextStepsForState(stateCode) {
 }
 
 // ============================================
-// MAP BEHAVIOUR
+// MAP BEHAVIOR
 // ============================================
 function setSelectedState(stateCode) {
   selectedState = stateCode;
@@ -565,7 +565,7 @@ if (annualIncreaseInput) annualIncreaseInput.addEventListener("input", () => { r
 if (downpaymentInput) downpaymentInput.addEventListener("input", updateAndRender);
 if (singleIncentiveInput) singleIncentiveInput.addEventListener("input", updateAndRender);
 
-// The maths clamps these two anyway, but clamping silently would leave the field
+// The math clamps these two anyway, but clamping silently would leave the field
 // showing a number that is not the one being used. Snap the visible value on
 // commit (blur or Enter) so what is on screen matches what was calculated.
 function currentSystemCost() {
