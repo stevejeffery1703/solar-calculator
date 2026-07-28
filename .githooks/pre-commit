@@ -1,0 +1,11 @@
+#!/bin/sh
+# Pre-commit guard: block the commit if the shared header/footer partials have
+# not been stamped into every page (i.e. someone edited partials/header.html or
+# partials/footer.html but forgot to run `node sync-partials.js`).
+#
+# Enable once per clone with:
+#     git config core.hooksPath .githooks
+#
+# sync-partials.js --check writes nothing and exits non-zero when out of sync,
+# printing which pages are stale and how to fix them.
+node sync-partials.js --check
