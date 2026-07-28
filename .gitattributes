@@ -1,0 +1,11 @@
+# Normalize line endings to LF across the repo. This is a static web project;
+# LF is the web standard and ends the CRLF/LF churn this repo used to have.
+* text=auto eol=lf
+
+# Binary assets — never apply line-ending conversion or text diffs to these.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.ico  binary
+*.gif  binary
