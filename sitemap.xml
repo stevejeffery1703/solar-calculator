@@ -162,4 +162,22 @@
     <priority>0.70</priority>
   </url>
 
+  <url>
+    <loc>https://sunwisecalculator.com/articles/how-do-solar-panels-work/</loc>
+    <lastmod>2026-07-28</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://sunwisecalculator.com/articles/solar-panel-maintenance/</loc>
+    <lastmod>2026-07-28</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://sunwisecalculator.com/articles/grid-tied-vs-off-grid-solar/</loc>
+    <lastmod>2026-07-28</lastmod>
+    <priority>0.70</priority>
+  </url>
+
 </urlset>
